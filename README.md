@@ -33,6 +33,13 @@ DB_HOST=localhost
 DB_PORT=5432
 ```
 
+You can generate a new secret key:
+
+```python
+from django.core.management import utils
+utils.get_random_secret_key()
+```
+
 Last but not least you can migrate all database models and start your webserver.
 
 ```shell
