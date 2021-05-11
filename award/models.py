@@ -24,4 +24,5 @@ class Nomination(models.Model):
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
     module = models.ForeignKey(Module, on_delete=models.CASCADE)
     reason = models.TextField()
-    submitter_email = models.EmailField(unique=True, validators=[EmailValidator(allowlist=['st.ovgu.de', 'ovgu.de'])])
+    sub_email = models.EmailField(unique=True, validators=[EmailValidator(allowlist=['st.ovgu.de', 'ovgu.de'])])
+    sub_date = models.DateTimeField(auto_now_add=True)
