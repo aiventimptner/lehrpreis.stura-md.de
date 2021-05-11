@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from award.models import Lecturer
+
+
+class LecturerListView(ListView):
+    model = Lecturer
