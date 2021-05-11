@@ -1,3 +1,18 @@
 from django.contrib import admin
 
-# Register your models here.
+from award.models import Lecturer, Module, Nomination
+
+
+@admin.register(Lecturer)
+class LecturerAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Module)
+class ModuleAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Nomination)
+class NominationAdmin(admin.ModelAdmin):
+    pass
