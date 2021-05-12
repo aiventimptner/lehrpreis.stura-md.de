@@ -1,0 +1,14 @@
+{% extends 'award/base.html' %}
+
+{% block content %}
+    <article class="message is-success">
+        <div class="message-header">
+            Erfolg!
+        </div>
+        <div class="message-body">
+            Dein Vorschlag ist erfolgreich bei uns eingegangen. Vielen Dank für deine Teilnahme. Wenn du noch weitere
+            Vorschläge einreichen oder bereits existierende Vorschläge unterzeichnen möchtest kannst du einfach wieder
+            zur <a href="{% url 'lecturer-list' %}">Startseite</a> zurückgehen.
+        </div>
+    </article>
+{% endblock %}

@@ -29,20 +29,36 @@
     </div>
 
     <h3 class="subtitle is-3">Eingereichte Vorschläge</h3>
-    <div class="columns">
-    {% for lecturer in lecturer_list %}
+
+    {% if not lecturer_list %}
+    <div class="notification has-text-centered">
+        <span class="icon-text">
+            <span>Es wurden bisher noch keine Vorschläge eingereicht.</span>
+            <span class="icon">
+                <i class="far fa-frown fa-lg"></i>
+            </span>
+        </span>
+    </div>
+    {% endif %}
+
+    <div class="columns is-mobile is-multiline">
+        <div class="column is-one-quarter">
+            <a href="{% url 'add-submission' %}">
+                <div class="card">
+                    <div class="card-content has-text-centered">
+                        <span class="icon has-text-info m-6">
+                            <i class="fas fa-plus-circle fa-5x"></i>
+                        </span>
+                        <p>Neuen Vorschlag einreichen</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {% for lecturer in lecturer_list %}
         <div class="column is-one-quarter">
             {% include 'award/lecturer_card.html' %}
         </div>
-    {% empty %}
-        <div class="column has-text-centered">
-            <span class="icon-text">
-                <span>Es wurden bisher noch keine Vorschläge eingereicht.</span>
-                <span class="icon">
-                    <i class="far fa-frown fa-lg"></i>
-                </span>
-            </span>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 {% endblock %}
