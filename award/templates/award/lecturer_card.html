@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-content">
+        <div class="content">
+            <h5>{{ lecturer }}</h5>
+            <div class="tags has-addons">
+                <span class="tag">Unterschriften</span>
+                <span class="tag is-success">{{ lecturer.nomination_set.count }}</span>
+            </div>
+            <span>Empfohlene Module:</span>
+            <ul class="mt-1">
+            {% for module in lecturer.module_set.all %}
+                <li>{{ module }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="#" class="card-footer-item">Unterzeichnen</a>
+    </div>
+</div>
