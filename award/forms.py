@@ -1,6 +1,6 @@
 from django import forms
 
-from award.models import Lecturer, Module, Nomination
+from award.models import Lecturer, Module, Student, Nomination
 
 
 class LecturerForm(forms.ModelForm):
@@ -29,15 +29,29 @@ class ModuleForm(forms.ModelForm):
         }
 
 
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'input'}),
+            'last_name': forms.TextInput(attrs={'class': 'input'}),
+            'email': forms.EmailInput(attrs={'class': 'input'}),
+        }
+        labels = {
+            'first_name': 'Vorname',
+            'last_name': 'Nachname',
+            'email': 'E-Mail-Adresse',
+        }
+
+
 class NominationForm(forms.ModelForm):
     class Meta:
         model = Nomination
-        fields = ['reason', 'sub_email']
+        fields = ['reason']
         widgets = {
             'reason': forms.Textarea(attrs={'class': 'textarea', 'rows': '3'}),
-            'sub_email': forms.EmailInput(attrs={'class': 'input'}),
         }
         labels = {
             'reason': 'Gründe für herausragende Lehre',
-            'sub_email': 'E-Mail-Adresse',
         }

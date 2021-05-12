@@ -10,25 +10,31 @@
 
             {% include 'award/forms/input_or_textarea.html' with field=lecturer_form.first_name %}
             {% include 'award/forms/input_or_textarea.html' with field=lecturer_form.last_name %}
-            {% for error in lecturer_form.non_field_errors %}
-            <p class="help is-danger">{{ error }}</p>
-            {% endfor %}
 
             {% include 'award/forms/input_or_textarea.html' with field=module_form.name %}
-            {% for error in module_form.non_field_erros %}
-            <p class="help is-danger">{{ error }}</p>
-            {% endfor %}
 
             {% include 'award/forms/input_or_textarea.html' with field=nomination_form.reason %}
 
             <h5 class="subtitle mb-3 mt-6 is-5">Angaben zur einreichenden Person</h5>
 
-            {% include 'award/forms/input_or_textarea.html' with field=nomination_form.sub_email %}
-            {% for error in nomination_form.non_field_erros %}
-            <p class="help is-danger">{{ error }}</p>
-            {% endfor %}
+            {% include 'award/forms/input_or_textarea.html' with field=student_form.first_name %}
+            {% include 'award/forms/input_or_textarea.html' with field=student_form.last_name %}
+            {% include 'award/forms/input_or_textarea.html' with field=student_form.email %}
 
             <button type="submit" class="button is-primary">Abschicken</button>
+
+            {% for error in module_form.non_field_errors %}
+            <p class="help is-danger">{{ error }}</p>
+            {% endfor %}
+            {% for error in lecturer_form.non_field_errors %}
+            <p class="help is-danger">{{ error }}</p>
+            {% endfor %}
+            {% for error in nomination_form.non_field_errors %}
+            <p class="help is-danger">{{ error }}</p>
+            {% endfor %}
+            {% for error in student_form.non_field_errors %}
+            <p class="help is-danger">{{ error }}</p>
+            {% endfor %}
         </form>
     </div>
 {% endblock %}

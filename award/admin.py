@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from award.models import Lecturer, Module, Nomination
+from award.models import Lecturer, Module, Student, Nomination
 
 
 @admin.register(Lecturer)
@@ -10,6 +10,11 @@ class LecturerAdmin(admin.ModelAdmin):
 
 @admin.register(Module)
 class ModuleAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
     pass
 
 
