@@ -6,6 +6,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'stura-md.de').split(',')
 
+MIDDLEWARE += [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
 
 # Database
 
