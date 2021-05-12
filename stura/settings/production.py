@@ -29,6 +29,11 @@ DATABASES = {
 }
 
 
+# Static files
+
+STATIC_ROOT = BASE_DIR / 'static'
+
+
 # Security
 
 SECURE_HSTS_SECONDS = 31536000
