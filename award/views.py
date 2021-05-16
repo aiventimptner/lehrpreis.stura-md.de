@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.forms.models import model_to_dict
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 
@@ -62,8 +63,15 @@ def add_submission(request):
             return HttpResponseRedirect('success/')
 
     else:
-        lecturer_form = LecturerForm(prefix='lecturer')
         module_form = ModuleForm(prefix='module')
+        initial_data = {}
+
+        if 'lecturer' in request.GET.keys():
+            lecturer = Lecturer.objects.get(id=request.GET.get('lecturer'))
+            initial_data['lecturer'] = model_to_dict(lecturer)
+
+        lecturer_form = LecturerForm(prefix='lecturer', initial=initial_data.get('lecturer'))
+
         student_form = StudentForm(prefix='student')
         nomination_form = NominationForm(prefix='nomination')
 
