@@ -63,7 +63,6 @@ def add_submission(request):
             return HttpResponseRedirect('success/')
 
     else:
-        module_form = ModuleForm(prefix='module')
         initial_data = {}
 
         if 'lecturer' in request.GET.keys():
@@ -71,7 +70,7 @@ def add_submission(request):
             initial_data['lecturer'] = model_to_dict(lecturer)
 
         lecturer_form = LecturerForm(prefix='lecturer', initial=initial_data.get('lecturer'))
-
+        module_form = ModuleForm(prefix='module')
         student_form = StudentForm(prefix='student')
         nomination_form = NominationForm(prefix='nomination')
 
