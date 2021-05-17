@@ -19,6 +19,6 @@
         </div>
     </div>
     <div class="card-footer">
-        <a href="{% url 'submission-create' %}?lecturer={{ lecturer.id }}" class="card-footer-item">Unterzeichnen</a>
+        <a href="{% url 'submission-create' %}?first_name={{ lecturer.first_name }}&last_name={{ lecturer.last_name }}&faculty={{ lecturer.faculty }}" class="card-footer-item">Unterzeichnen</a>
     </div>
 </div>

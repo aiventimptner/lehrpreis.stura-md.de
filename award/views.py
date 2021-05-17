@@ -13,6 +13,11 @@ class SubmissionFormView(FormView):
     template_name = 'award/submission_form.html'
     success_url = 'success/'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update(self.request.GET.dict())
+        return initial
+
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
