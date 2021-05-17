@@ -1,9 +1,9 @@
 from django.urls import path
 
-from award.views import LecturerListView, add_submission, SubmissionSuccessView
+from .views import LecturerListView, SubmissionFormView, SubmissionSuccessView
 
 urlpatterns = [
     path('', LecturerListView.as_view(), name='lecturer-list'),
-    path('submit/', add_submission, name='add-submission'),
+    path('submit/', SubmissionFormView.as_view(), name='submission-create'),
     path('submit/success/', SubmissionSuccessView.as_view(), name='submission-success'),
 ]
