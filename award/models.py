@@ -47,12 +47,15 @@ def validate_ovgu(value):
 
 
 class Nomination(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['lecturer', 'sub_email'], name='unique nomination')
+        ]
+
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
     reason = models.TextField()
     sub_email = models.EmailField(validators=[validate_ovgu])
     sub_date = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['lecturer', 'sub_email'], name='unique nomination')
-        ]
+    def __str__(self):
+        return self.sub_email
