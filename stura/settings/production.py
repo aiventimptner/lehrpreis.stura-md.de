@@ -1,3 +1,4 @@
+import os
 import re
 
 from .base import *
@@ -30,6 +31,21 @@ DATABASES = {
         'PORT': os.environ['DB_PORT'],
     }
 }
+
+
+# E-Mail
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = os.environ['EMAIL_HOST']
+
+EMAIL_PORT = os.environ['EMAIL_PORT']
+
+EMAIL_HOST_USER = os.environ['EMAIL_USER']
+
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
+
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_EMAIL', 'no-reply@stura-md.de')
 
 
 # Static files
