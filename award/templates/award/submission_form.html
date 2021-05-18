@@ -1,6 +1,17 @@
 {% extends 'award/base.html' %}
 
 {% block content %}
+    <article class="message is-info">
+        <div class="message-header">Datenschutz-Hinweis</div>
+        <div class="message-body">
+            Wir benötigen deine E-Mail-Adresse um deine Identität zu bestätigen und Falschangaben zu verhindern.
+            Die personenbezogenen Daten werden von uns stets vertraulich behandelt und nicht an Dritte
+            weitergegeben. Sämtliche eingereichten Vorschläge werden für maximal 6 Monate aufbewahrt und
+            anschließend unwiderruflich gelöscht.<br>
+            Unsere <a href="https://stura-md.de/datenschutz/">Datenschutzerklärung</a> findest du auf unser Homepage.
+        </div>
+    </article>
+
     <div class="box">
         <form method="post">
             {% csrf_token %}
