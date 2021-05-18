@@ -70,7 +70,7 @@ def generate_token():
 
 
 class Verification(models.Model):
-    key = models.CharField(max_length=16, primary_key=True, validators=[validate_slug], default=generate_token)
+    token = models.CharField(max_length=16, primary_key=True, validators=[validate_slug], default=generate_token)
     nomination = models.ForeignKey(Nomination, on_delete=models.CASCADE)
     expiration = models.DateTimeField(null=True)
     created = models.DateTimeField(auto_now_add=True)
