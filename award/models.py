@@ -38,9 +38,9 @@ class Lecturer(models.Model):
     faculty = models.CharField(max_length=3, choices=FACULTIES)
 
     def __str__(self):
-        return self.full_name()
+        return self.get_full_name()
 
-    def full_name(self):
+    def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
 
