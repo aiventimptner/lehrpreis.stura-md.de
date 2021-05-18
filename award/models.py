@@ -1,4 +1,7 @@
+import secrets
+
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_slug
 from django.db import models
 
 
@@ -56,6 +59,18 @@ class Nomination(models.Model):
     reason = models.TextField()
     sub_email = models.EmailField(validators=[validate_ovgu])
     sub_date = models.DateTimeField(auto_now_add=True)
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.sub_email
+
+
+def generate_token():
+    return secrets.token_urlsafe(12)
+
+
+class Verification(models.Model):
+    key = models.CharField(max_length=16, primary_key=True, validators=[validate_slug], default=generate_token)
+    nomination = models.ForeignKey(Nomination, on_delete=models.CASCADE)
+    expiration = models.DateTimeField(null=True)
+    created = models.DateTimeField(auto_now_add=True)
