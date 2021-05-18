@@ -1,0 +1,13 @@
+{% extends 'award/base.html' %}
+
+{% load tz %}
+{% block content %}
+<article class="message {% if feedback.valid_token %}is-success{% else %}is-danger{% endif %}">
+    <div class="message-header">
+        {{ feedback.title }}
+    </div>
+    <div class="message-body">
+        {{ feedback.message }}
+    </div>
+</article>
+{% endblock %}

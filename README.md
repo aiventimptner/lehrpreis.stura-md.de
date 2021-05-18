@@ -20,7 +20,8 @@ pip install -r requirements.txt
 
 In a production environment you should set the following environment variables. You 
 should note, that it is required to separate multiple domain names (including 
-subdomains) via comma and no whitespaces for `ALLOWED_HOSTS`.
+subdomains) via comma and no whitespaces for `ALLOWED_HOSTS`. All email configuration 
+require a TLS enabled connection.
 
 ```ini
 SECRET_KEY=secret-key
@@ -31,6 +32,11 @@ DB_USER=stura
 DB_PASSWORD=secret-password
 DB_HOST=localhost
 DB_PORT=5432
+EMAIL_HOST = localhost
+EMAIL_PORT = 587
+EMAIL_USER = no-reply
+EMAIL_PASSWORD = secret-password
+DEFAULT_EMAIL = no-reply@stura-md.de
 ```
 
 You can generate a new secret key:
