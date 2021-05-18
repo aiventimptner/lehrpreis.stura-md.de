@@ -8,7 +8,7 @@ from .models import Lecturer, Verification
 
 class LecturerListView(ListView):
     model = Lecturer
-    queryset = Lecturer.objects.filter(nomination__verified=True)
+    queryset = Lecturer.objects.filter(nomination__verified=True).distinct()
 
 
 class SubmissionFormView(FormView):
