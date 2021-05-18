@@ -2,7 +2,7 @@ Hallo {{ nomination.get_first_name }},
 
 vielen Dank für deinen Vorschlag. Bitte bestätige als letzten Schritt mittels 
 dieser E-Mail, dass der Vorschlag auch wirklich von dir eingereicht wurde. Dazu 
-musst du lediglich auf den nachfolgenden Link klicken. Der Link ist bis 
+musst du lediglich auf den nachfolgenden Link klicken. Der Link ist bis zum 
 **{{ link.expiry }}** gültig!
 
 [Vorschlag bestätigen]({{ link.url }})

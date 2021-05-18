@@ -1,10 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 
 from .models import Lecturer, Nomination, validate_ovgu, Verification
 
@@ -44,12 +45,12 @@ class SubmissionForm(forms.Form):
                                                     sub_email=self.cleaned_data['sub_email'])
 
     def send_verification_email(self, request: HttpRequest):
-        expiration = datetime.now() + timedelta(hours=24)
+        expiration = timezone.now() + timedelta(hours=24)
         verification = Verification.objects.create(nomination=self.nomination, expiration=expiration)
 
         link = {
             'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
-            'expiry': expiration.strftime('%d.%m.%y um %H:%M Uhr'),
+            'expiry': timezone.make_naive(expiration).strftime('%d.%m.%y um %H:%M Uhr'),
         }
 
         message = render_to_string('award/mails/verification.md', {'nomination': self.nomination,
