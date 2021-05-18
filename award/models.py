@@ -45,19 +45,20 @@ class Lecturer(models.Model):
 
 
 def validate_ovgu(value):
-    if value.split('@')[-1] not in ['ovgu.de', 'st.ovgu.de']:
+    if value.lower().split('@')[-1] not in ['ovgu.de', 'st.ovgu.de']:
         raise ValidationError("Es sind nur E-Mail-Adresse der folgenden Domains erlaubt: st.ovgu.de, ovgu.de")
 
 
 class Nomination(models.Model):
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['lecturer', 'sub_email'], name='unique nomination')
+            CheckConstraint(check=Q(sub_email__iregex=r'^[^@]+@(st\.)?ovgu\.de$'), name='check_ovgu'),
+            UniqueConstraint(fields=['lecturer', 'sub_email'], condition=Q(sub_email__iregex=r'^[^@]+@(st\.)?ovgu\.de$'), name='unique_nomination'),
         ]
 
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
     reason = models.TextField()
-    sub_email = models.EmailField(validators=[validate_ovgu])
+    sub_email = models.EmailField()  # validators=[validate_ovgu])
     sub_date = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
 
