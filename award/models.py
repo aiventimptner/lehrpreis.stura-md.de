@@ -1,14 +1,16 @@
+import re
 import secrets
 
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_slug
 from django.db import models
+from django.db.models import UniqueConstraint, CheckConstraint, Q
 
 
 class Lecturer(models.Model):
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['first_name', 'last_name'], name='unique fullname')
+            UniqueConstraint(fields=['first_name', 'last_name'], name='unique_fullname'),
         ]
 
     FMB = 'MB'
@@ -44,20 +46,27 @@ class Lecturer(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-def validate_ovgu(value):
-    if value.split('@')[-1] not in ['ovgu.de', 'st.ovgu.de']:
+PATTERN = r'^[\.0-9a-z]+@(st\.)?ovgu\.de$'
+
+
+def validate_domain(value):
+    match = re.match(PATTERN, value, re.IGNORECASE)
+    if not match:
         raise ValidationError("Es sind nur E-Mail-Adresse der folgenden Domains erlaubt: st.ovgu.de, ovgu.de")
 
 
 class Nomination(models.Model):
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['lecturer', 'sub_email'], name='unique nomination')
+            CheckConstraint(check=Q(sub_email__iregex=PATTERN), name='check_domain_whitelist'),
+            UniqueConstraint(fields=['lecturer', 'sub_email'],
+                             condition=Q(sub_email__iregex=PATTERN),    # TODO condition does nothing?!
+                             name='unique_nomination'),
         ]
 
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
     reason = models.TextField()
-    sub_email = models.EmailField(validators=[validate_ovgu])
+    sub_email = models.EmailField(validators=[validate_domain])
     sub_date = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
 

@@ -2,13 +2,14 @@ from datetime import timedelta
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Q
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from markdown import markdown
 
-from .models import Lecturer, Nomination, validate_ovgu, Verification
+from .models import Lecturer, Nomination, validate_domain, Verification
 
 
 class SubmissionForm(forms.Form):
@@ -25,17 +26,30 @@ class SubmissionForm(forms.Form):
                              label="Begründung")
     sub_email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}),
                                  label="E-Mail-Adresse",
-                                 validators=[validate_ovgu])
+                                 validators=[validate_domain])
+
+    def clean_sub_email(self):
+        return self.cleaned_data['sub_email'].lower()
 
     def clean(self):
         cleaned_data = super().clean()
-        nomination = Nomination.objects.filter(lecturer__first_name=cleaned_data.get('first_name'),
-                                               lecturer__last_name=cleaned_data.get('last_name'),
-                                               lecturer__faculty=cleaned_data.get('faculty'),
-                                               sub_email=cleaned_data.get('sub_email')).first()
-        if nomination:
-            raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
-                                  "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='not unique')
+
+        if 'sub_email' in cleaned_data:
+            email = cleaned_data.get('sub_email')
+            user, host = email.split('@')
+            email_alt = f"{user}@ovgu.de" if host.startswith('st.') else f"{user}@st.ovgu.de"
+
+            already_submitted = Nomination.objects.filter(
+                lecturer__first_name=cleaned_data.get('first_name'),
+                lecturer__last_name=cleaned_data.get('last_name'),
+                lecturer__faculty=cleaned_data.get('faculty')
+            ).filter(
+                Q(sub_email=email) | Q(sub_email=email_alt)
+            ).exists()
+
+            if already_submitted:
+                raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
+                                      "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='not unique')
 
     def save(self):
         self.lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
