@@ -7,6 +7,7 @@ from .models import Lecturer
 
 class LecturerListView(ListView):
     model = Lecturer
+    queryset = Lecturer.objects.filter(nomination__verified=True)
 
 
 class SubmissionFormView(FormView):
