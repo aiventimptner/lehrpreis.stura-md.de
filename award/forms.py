@@ -27,10 +27,6 @@ class SubmissionForm(forms.Form):
                                  label="E-Mail-Adresse",
                                  validators=[validate_ovgu])
 
-    def clean_sub_email(self):
-        data = self.cleaned_data['sub_email']
-        return data.lower()
-
     def clean(self):
         cleaned_data = super().clean()
         nomination = Nomination.objects.filter(lecturer__first_name=cleaned_data.get('first_name'),
