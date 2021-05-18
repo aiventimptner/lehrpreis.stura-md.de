@@ -1,11 +1,12 @@
 from datetime import timedelta
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from markdown import markdown
 
 from .models import Lecturer, Nomination, validate_ovgu, Verification
 
@@ -61,7 +62,9 @@ class SubmissionForm(forms.Form):
                                                                    'lecturer': self.lecturer,
                                                                    'link': link})
 
-        send_mail("Dein Vorschlag für den Lehrpreis der Studierendenschaft",
-                  message,
-                  None,
-                  [self.nomination.sub_email])
+        email = EmailMultiAlternatives(subject="Dein Vorschlag für den Lehrpreis der Studierendenschaft",
+                                       body=message,
+                                       to=[self.nomination.sub_email],
+                                       reply_to=['verwaltung@stura-md.de'])
+        email.attach_alternative(markdown(message), 'text/html')
+        email.send()
