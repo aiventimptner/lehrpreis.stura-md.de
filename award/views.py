@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import ListView, TemplateView, FormView
 
 from .forms import SubmissionForm
@@ -20,8 +21,14 @@ class SubmissionFormView(FormView):
 
     def form_valid(self, form):
         form.save()
+        form.send_verification_email(self.request)
         return super().form_valid(form)
 
 
 class SubmissionSuccessView(TemplateView):
     template_name = 'award/submission_success.html'
+
+
+def verify_token(request):
+    # TODO add verification logic & replace template
+    return render(request, 'award/submission_success.html')

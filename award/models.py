@@ -64,6 +64,12 @@ class Nomination(models.Model):
     def __str__(self):
         return self.sub_email
 
+    def get_first_name(self):
+        username = self.sub_email.split('@')[0]
+        if '.' in list(username):
+            return username.split('.')[0].title()
+        return username.title()
+
 
 def generate_token():
     return secrets.token_urlsafe(12)

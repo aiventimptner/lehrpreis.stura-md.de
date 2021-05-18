@@ -1,10 +1,18 @@
+from datetime import datetime, timedelta
 from django import forms
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.http import HttpRequest
+from django.template.loader import render_to_string
+from django.urls import reverse
 
-from .models import Lecturer, Nomination, validate_ovgu
+from .models import Lecturer, Nomination, validate_ovgu, Verification
 
 
 class SubmissionForm(forms.Form):
+    lecturer = None
+    nomination = None
+
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}),
                                  label="Vorname")
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}),
@@ -28,10 +36,27 @@ class SubmissionForm(forms.Form):
                                   "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='not unique')
 
     def save(self):
-        lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
-                                                          last_name=self.cleaned_data['last_name'],
-                                                          faculty=self.cleaned_data['faculty'])
-        nomination = Nomination.objects.create(lecturer=lecturer,
-                                               reason=self.cleaned_data['reason'],
-                                               sub_email=self.cleaned_data['sub_email'])
-        # TODO send mail to validate submission
+        self.lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
+                                                               last_name=self.cleaned_data['last_name'],
+                                                               faculty=self.cleaned_data['faculty'])
+        self.nomination = Nomination.objects.create(lecturer=self.lecturer,
+                                                    reason=self.cleaned_data['reason'],
+                                                    sub_email=self.cleaned_data['sub_email'])
+
+    def send_verification_email(self, request: HttpRequest):
+        expiration = datetime.now() + timedelta(hours=24)
+        verification = Verification.objects.create(nomination=self.nomination, expiration=expiration)
+
+        link = {
+            'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
+            'expiry': expiration.strftime('%d.%m.%y um %H:%M Uhr'),
+        }
+
+        message = render_to_string('award/mails/verification.md', {'nomination': self.nomination,
+                                                                   'lecturer': self.lecturer,
+                                                                   'link': link})
+
+        send_mail("Dein Vorschlag für den Lehrpreis der Studierendenschaft",
+                  message,
+                  None,
+                  [self.nomination.sub_email])
