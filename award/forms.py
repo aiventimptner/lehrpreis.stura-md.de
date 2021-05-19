@@ -12,8 +12,6 @@ from .models import Lecturer, Nomination, Verification
 
 
 def strip_email_subdomain(email: str) -> (str, bool):
-    if email is None:
-        return None, False
     user, host = email.split('@')
     if host.startswith('st.'):
         return f"{user}@{host[3:]}", True
@@ -59,11 +57,16 @@ class SubmissionForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
+        try:
+            sub_email, is_student = strip_email_subdomain(cleaned_data.get('sub_email'))
+        except AttributeError:
+            sub_email = None
+
         already_submitted = Nomination.objects.filter(
             lecturer__first_name=cleaned_data.get('first_name'),
             lecturer__last_name=cleaned_data.get('last_name'),
             lecturer__faculty=cleaned_data.get('faculty'),
-            sub_email=strip_email_subdomain(cleaned_data.get('sub_email'))[0],
+            sub_email=sub_email,
         ).exists()
         if already_submitted:
             raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
