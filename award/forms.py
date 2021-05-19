@@ -83,6 +83,8 @@ class SubmissionForm(forms.Form):
                                                           last_name=self.cleaned_data['last_name'],
                                                           faculty=self.cleaned_data['faculty'])
         sub_email, is_student = strip_email_subdomain(self.cleaned_data['sub_email'])
+        # Check if submitter already nominated once and use same email host instead of provided value
+        is_student = Nomination.objects.filter(sub_email=sub_email).values_list('is_student', flat=True).first()
         nomination = Nomination.objects.create(lecturer=lecturer,
                                                reason=self.cleaned_data['reason'],
                                                sub_email=sub_email,
