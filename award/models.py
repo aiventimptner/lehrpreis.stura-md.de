@@ -66,13 +66,19 @@ class Nomination(models.Model):
     is_student = models.BooleanField()
 
     def __str__(self):
-        return self.sub_email
+        return self.get_full_name()
 
-    def get_first_name(self):
-        username = self.sub_email.split('@')[0]
-        if '.' in list(username):
-            return username.split('.')[0].title()
-        return username.title()
+    def get_username(self):
+        return self.sub_email.split('@')[0]
+
+    def get_full_name(self):
+        return self.get_username().replace('.', ' ').title()
+
+    def get_valid_email(self):
+        if self.is_student:
+            user, host = self.sub_email.split('@')
+            return f"{user}@st.{host}"
+        return self.sub_email
 
 
 def generate_token():

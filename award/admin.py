@@ -11,8 +11,8 @@ class LecturerAdmin(admin.ModelAdmin):
 
 @admin.register(Nomination)
 class NominationAdmin(admin.ModelAdmin):
-    list_display = ('sub_email', 'lecturer', 'sub_date', 'is_verified')
-    list_filter = ('sub_email', 'lecturer')
+    list_display = ('__str__', 'lecturer', 'sub_date', 'is_verified')
+    list_filter = ('is_verified', )
 
 
 @admin.register(Verification)

@@ -2,24 +2,22 @@ from datetime import timedelta
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
-from django.db.models import Q
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from markdown import markdown
 
-from .models import Lecturer, Nomination, validate_domain, Verification
+from .models import Lecturer, Nomination, Verification
 
 
-def get_alt_email(value: str):
-    if value is None:
-        return None
-    user, host = value.split('@')
+def strip_email_subdomain(email: str) -> (str, bool):
+    if email is None:
+        return None, False
+    user, host = email.split('@')
     if host.startswith('st.'):
-        return f"{user}@ovgu.de"
-    else:
-        return f"{user}@st.ovgu.de"
+        return f"{user}@{host[3:]}", True
+    return f"{user}@{host}", False
 
 
 def send_verification_email(nomination: Nomination, request: HttpRequest):
@@ -37,7 +35,7 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
 
     email = EmailMultiAlternatives(subject="Dein Vorschlag für den Lehrpreis der Studierendenschaft",
                                    body=message,
-                                   to=[nomination.sub_email],
+                                   to=[nomination.get_valid_email()],
                                    reply_to=['verwaltung@stura-md.de'])
     email.attach_alternative(markdown(message), 'text/html')
     email.send()
@@ -53,8 +51,7 @@ class SubmissionForm(forms.Form):
     reason = forms.CharField(widget=forms.Textarea(attrs={'class': 'textarea', 'rows': 3}),
                              label="Begründung")
     sub_email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}),
-                                 label="E-Mail-Adresse",
-                                 validators=[validate_domain])
+                                 label="E-Mail-Adresse")
 
     def clean_sub_email(self):
         return self.cleaned_data['sub_email'].lower()
@@ -62,15 +59,11 @@ class SubmissionForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
-        email = cleaned_data.get('sub_email')
-        email_alt = get_alt_email(cleaned_data.get('sub_email'))
-
         already_submitted = Nomination.objects.filter(
             lecturer__first_name=cleaned_data.get('first_name'),
             lecturer__last_name=cleaned_data.get('last_name'),
-            lecturer__faculty=cleaned_data.get('faculty')
-        ).filter(
-            Q(sub_email=email) | Q(sub_email=email_alt)
+            lecturer__faculty=cleaned_data.get('faculty'),
+            sub_email=strip_email_subdomain(cleaned_data.get('sub_email'))[0],
         ).exists()
         if already_submitted:
             raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
@@ -80,9 +73,11 @@ class SubmissionForm(forms.Form):
         lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
                                                           last_name=self.cleaned_data['last_name'],
                                                           faculty=self.cleaned_data['faculty'])
+        sub_email, is_student = strip_email_subdomain(self.cleaned_data['sub_email'])
         nomination = Nomination.objects.create(lecturer=lecturer,
                                                reason=self.cleaned_data['reason'],
-                                               sub_email=self.cleaned_data['sub_email'])
+                                               sub_email=sub_email,
+                                               is_student=is_student)
 
         send_verification_email(nomination, request)
 
@@ -90,12 +85,15 @@ class SubmissionForm(forms.Form):
 class RenewTokenForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}), label="E-Mail-Adresse")
 
+    def clean_email(self):
+        return self.cleaned_data['email'].lower()
+
     def clean(self):
         cleaned_data = super().clean()
 
         pending_nominations = Nomination.objects.filter(
-            sub_email=cleaned_data.get('email'),
-            verified=False,
+            sub_email=strip_email_subdomain(cleaned_data.get('email'))[0],
+            is_verified=False,
         ).exists()
 
         if not pending_nominations:
@@ -104,20 +102,19 @@ class RenewTokenForm(forms.Form):
                                   code='unknown')
 
     def renew_tokens(self, request: HttpRequest):
-        email = self.cleaned_data['email']
-        email_alt = get_alt_email(self.cleaned_data['email'])
+        sub_email, is_student = strip_email_subdomain(self.cleaned_data['email'])
 
         verifications = Verification.objects.filter(
-            Q(nomination__sub_email=email) | Q(nomination__sub_email=email_alt),
-            nomination__verified=False,
+            nomination__sub_email=sub_email,
+            nomination__is_verified=False,
         ).all()
 
         for verification in verifications:
             verification.delete()
 
         nominations = Nomination.objects.filter(
-            Q(sub_email=email) | Q(sub_email=email_alt),
-            verified=False,
+            sub_email=sub_email,
+            is_verified=False,
         ).all()
 
         for nomination in nominations:
