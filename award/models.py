@@ -1,4 +1,3 @@
-import re
 import secrets
 
 from django.core.exceptions import ValidationError
@@ -47,29 +46,24 @@ class Lecturer(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
-PATTERN = r'^[\.0-9a-z]+@(st\.)?ovgu\.de$'
-
-
-def validate_domain(value):
-    match = re.match(PATTERN, value, re.IGNORECASE)
-    if not match:
-        raise ValidationError("Es sind nur E-Mail-Adresse der folgenden Domains erlaubt: st.ovgu.de, ovgu.de")
+def validate_domain(value: str):
+    if not value.endswith('@ovgu.de'):
+        raise ValidationError("Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt.")
 
 
 class Nomination(models.Model):
     class Meta:
         constraints = [
-            CheckConstraint(check=Q(sub_email__iregex=PATTERN), name='check_domain_whitelist'),
-            UniqueConstraint(fields=['lecturer', 'sub_email'],
-                             condition=Q(sub_email__iregex=PATTERN),    # TODO condition does nothing?!
-                             name='unique_nomination'),
+            CheckConstraint(check=Q(sub_email__endswith='@ovgu.de'), name='check_domain_whitelist'),
+            UniqueConstraint(fields=['lecturer', 'sub_email'], name='unique_nomination'),
         ]
 
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
     reason = models.TextField()
     sub_email = models.EmailField(validators=[validate_domain])
     sub_date = models.DateTimeField(auto_now_add=True)
-    verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    is_student = models.BooleanField()
 
     def __str__(self):
         return self.sub_email
