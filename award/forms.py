@@ -22,6 +22,27 @@ def get_alt_email(value: str):
         return f"{user}@st.ovgu.de"
 
 
+def send_verification_email(nomination: Nomination, request: HttpRequest):
+    expiration = timezone.now() + timedelta(hours=24)
+    verification = Verification.objects.create(nomination=nomination, expiration=expiration)
+
+    link = {
+        'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
+        'expiry': timezone.make_naive(expiration).strftime('%d.%m.%y um %H:%M Uhr'),
+    }
+
+    message = render_to_string('award/mails/verification.md', {'nomination': nomination,
+                                                               'lecturer': nomination.lecturer,
+                                                               'link': link})
+
+    email = EmailMultiAlternatives(subject="Dein Vorschlag für den Lehrpreis der Studierendenschaft",
+                                   body=message,
+                                   to=[nomination.sub_email],
+                                   reply_to=['verwaltung@stura-md.de'])
+    email.attach_alternative(markdown(message), 'text/html')
+    email.send()
+
+
 class SubmissionForm(forms.Form):
     lecturer = None
     nomination = None
@@ -66,22 +87,5 @@ class SubmissionForm(forms.Form):
                                                     reason=self.cleaned_data['reason'],
                                                     sub_email=self.cleaned_data['sub_email'])
 
-    def send_verification_email(self, request: HttpRequest):
-        expiration = timezone.now() + timedelta(hours=24)
-        verification = Verification.objects.create(nomination=self.nomination, expiration=expiration)
-
-        link = {
-            'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
-            'expiry': timezone.make_naive(expiration).strftime('%d.%m.%y um %H:%M Uhr'),
-        }
-
-        message = render_to_string('award/mails/verification.md', {'nomination': self.nomination,
-                                                                   'lecturer': self.lecturer,
-                                                                   'link': link})
-
-        email = EmailMultiAlternatives(subject="Dein Vorschlag für den Lehrpreis der Studierendenschaft",
-                                       body=message,
-                                       to=[self.nomination.sub_email],
-                                       reply_to=['verwaltung@stura-md.de'])
-        email.attach_alternative(markdown(message), 'text/html')
-        email.send()
+    def send_email(self, request: HttpRequest):
+        send_verification_email(self.nomination, request)
