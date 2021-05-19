@@ -50,8 +50,7 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_EMAIL', 'no-reply@stura-md.de')
 
 # Static files
 
-STATIC_ROOT = BASE_DIR / 'static'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Security
 
@@ -61,7 +60,7 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 SECURE_HSTS_PRELOAD = True
 
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 
 SESSION_COOKIE_SECURE = True
 
