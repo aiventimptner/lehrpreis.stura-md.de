@@ -1,0 +1,19 @@
+{% extends 'award/base.html' %}
+
+{% block content %}
+    <article class="message is-success">
+        <div class="message-header">
+            <span class="icon-text">
+                <span>
+                    Erfolg!
+                </span>
+                <span class="icon">
+                    <i class="fas fa-grin-beam"></i>
+                </span>
+            </span>
+        </div>
+        <div class="message-body">
+            {{ feedback|safe }}
+        </div>
+    </article>
+{% endblock %}

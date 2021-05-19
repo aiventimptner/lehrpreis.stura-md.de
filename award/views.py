@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import ListView, TemplateView, FormView
+from markdown import markdown
 
 from .forms import SubmissionForm
 from .models import Lecturer, Verification
@@ -28,7 +29,17 @@ class SubmissionFormView(FormView):
 
 
 class SubmissionSuccessView(TemplateView):
-    template_name = 'award/submission_success.html'
+    template_name = 'award/success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['feedback'] = markdown(f"Dein Vorschlag ist erfolgreich bei uns eingegangen. **Du musst als letzten "
+                                       f"Schritt noch deinen Vorschlag bestätigen, in dem du auf den Link klickst, "
+                                       f"welchen wir dir eben per E-Mail geschickt haben.** Wenn du noch weitere "
+                                       f"Vorschläge einreichen oder bereits existierende Vorschläge unterzeichnen "
+                                       f"möchtest kannst du einfach wieder zur "
+                                       f"[Startseite]({reverse('lecturer-list')}) zurückkehren.")
+        return context
 
 
 def verify_token(request, token):
