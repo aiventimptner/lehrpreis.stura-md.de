@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from markdown import markdown
 
-from .models import Lecturer, Nomination, Verification
+from .models import Lecturer, Nomination, Verification, validate_domain
 
 
 def strip_email_subdomain(email: str) -> (str, bool):
@@ -52,7 +52,13 @@ class SubmissionForm(forms.Form):
                                  label="E-Mail-Adresse")
 
     def clean_sub_email(self):
-        return self.cleaned_data['sub_email'].lower()
+        data = self.cleaned_data['sub_email'].lower()
+        try:
+            # Override default validation message because email host hasn't been cleaned yet
+            validate_domain(strip_email_subdomain(data)[0])
+        except ValidationError:
+            raise ValidationError("Es sind nur E-Mail-Adresse der folgenden Domains erlaubt: st.ovgu.de, ovgu.de")
+        return data
 
     def clean(self):
         cleaned_data = super().clean()
