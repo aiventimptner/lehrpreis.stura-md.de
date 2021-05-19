@@ -12,6 +12,16 @@ from markdown import markdown
 from .models import Lecturer, Nomination, validate_domain, Verification
 
 
+def get_alt_email(value: str):
+    if value is None:
+        return None
+    user, host = value.split('@')
+    if host.startswith('st.'):
+        return f"{user}@ovgu.de"
+    else:
+        return f"{user}@st.ovgu.de"
+
+
 class SubmissionForm(forms.Form):
     lecturer = None
     nomination = None
@@ -34,22 +44,19 @@ class SubmissionForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
-        if 'sub_email' in cleaned_data:
-            email = cleaned_data.get('sub_email')
-            user, host = email.split('@')
-            email_alt = f"{user}@ovgu.de" if host.startswith('st.') else f"{user}@st.ovgu.de"
+        email = cleaned_data.get('sub_email')
+        email_alt = get_alt_email(cleaned_data.get('sub_email'))
 
-            already_submitted = Nomination.objects.filter(
-                lecturer__first_name=cleaned_data.get('first_name'),
-                lecturer__last_name=cleaned_data.get('last_name'),
-                lecturer__faculty=cleaned_data.get('faculty')
-            ).filter(
-                Q(sub_email=email) | Q(sub_email=email_alt)
-            ).exists()
-
-            if already_submitted:
-                raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
-                                      "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='not unique')
+        already_submitted = Nomination.objects.filter(
+            lecturer__first_name=cleaned_data.get('first_name'),
+            lecturer__last_name=cleaned_data.get('last_name'),
+            lecturer__faculty=cleaned_data.get('faculty')
+        ).filter(
+            Q(sub_email=email) | Q(sub_email=email_alt)
+        ).exists()
+        if already_submitted:
+            raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
+                                  "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
 
     def save(self):
         self.lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
