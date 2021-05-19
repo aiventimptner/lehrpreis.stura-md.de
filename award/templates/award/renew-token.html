@@ -1,0 +1,25 @@
+{% extends 'award/base.html' %}
+
+{% block content %}
+{% include 'award/misc/privacy-info.html' with message=privacy %}
+
+<div class="box">
+    <h3 class="title is-3">Abgelaufene Tokens erneuern</h3>
+    <h5 class="subtitle is-5">Neue E-Mails zur Bestätigung der noch offenen Vorschläge von dir anfordern</h5>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% include 'award/forms/input_or_textarea.html' with field=form.email %}
+
+        <div class="field">
+            <div class="control">
+                <button type="submit" class="button is-primary">Anfordern</button>
+            </div>
+            {% for error in form.non_field_errors %}
+            <p class="help is-danger">{{ error }}</p>
+            {% endfor %}
+        </div>
+    </form>
+</div>
+{% endblock %}

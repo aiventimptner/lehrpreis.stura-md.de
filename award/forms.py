@@ -86,3 +86,39 @@ class SubmissionForm(forms.Form):
 
         send_verification_email(nomination, request)
 
+
+class RenewTokenForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}), label="E-Mail-Adresse")
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        pending_nominations = Nomination.objects.filter(
+            sub_email=cleaned_data.get('email'),
+            verified=False,
+        ).exists()
+
+        if not pending_nominations:
+            raise ValidationError("Es konnte kein Vorschlag mit der angegebenen E-Mail-Adresse gefunden werden "
+                                  "oder es sind bereits alle Vorschläge mit dieser E-Mail-Adresse bestätigt.",
+                                  code='unknown')
+
+    def renew_tokens(self, request: HttpRequest):
+        email = self.cleaned_data['email']
+        email_alt = get_alt_email(self.cleaned_data['email'])
+
+        verifications = Verification.objects.filter(
+            Q(nomination__sub_email=email) | Q(nomination__sub_email=email_alt),
+            nomination__verified=False,
+        ).all()
+
+        for verification in verifications:
+            verification.delete()
+
+        nominations = Nomination.objects.filter(
+            Q(sub_email=email) | Q(sub_email=email_alt),
+            verified=False,
+        ).all()
+
+        for nomination in nominations:
+            send_verification_email(nomination, request)

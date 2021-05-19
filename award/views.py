@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.views.generic import ListView, TemplateView, FormView
 from markdown import markdown
 
-from .forms import SubmissionForm
+from .forms import SubmissionForm, RenewTokenForm
 from .models import Lecturer, Verification
 
 
@@ -86,3 +86,24 @@ def verify_token(request, token):
     }
 
     return render(request, 'award/verification.html', {'feedback': feedback})
+
+
+class RenewTokenView(FormView):
+    form_class = RenewTokenForm
+    template_name = 'award/renew-token.html'
+    success_url = 'success/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['privacy'] = markdown("Die eingegebene E-Mail-Adresse wird von uns **nicht gespeichert**. Wir "
+                                      "verwenden Sie lediglich für das Versenden der benötigten E-Mails.")
+        return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial.update(self.request.GET.dict())
+        return initial
+
+    def form_valid(self, form):
+        form.renew_tokens(self.request)
+        return super().form_valid(form)
