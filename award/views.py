@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.views.generic import ListView, TemplateView, FormView
 from markdown import markdown
