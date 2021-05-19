@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_slug
 from django.db import models
 from django.db.models import UniqueConstraint, CheckConstraint, Q
+from django.utils import timezone
 
 
 class Lecturer(models.Model):
@@ -89,3 +90,9 @@ class Verification(models.Model):
     nomination = models.ForeignKey(Nomination, on_delete=models.CASCADE)
     expiration = models.DateTimeField(null=True)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.token
+
+    def is_expired(self):
+        return timezone.now() > self.expiration
