@@ -17,6 +17,15 @@ class SubmissionFormView(FormView):
     template_name = 'award/submission_form.html'
     success_url = 'success/'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['privacy'] = markdown("Wir benötigen deine E-Mail-Adresse um deine Identität zu bestätigen und "
+                                      "Falschangaben zu verhindern. Die personenbezogenen Daten werden von uns stets "
+                                      "vertraulich behandelt und nicht an Dritte weitergegeben. Sämtliche "
+                                      "eingereichten Vorschläge werden für **maximal 6 Monate** aufbewahrt und "
+                                      "anschließend unwiderruflich gelöscht.")
+        return context
+
     def get_initial(self):
         initial = super().get_initial()
         initial.update(self.request.GET.dict())
