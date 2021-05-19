@@ -107,3 +107,15 @@ class RenewTokenView(FormView):
     def form_valid(self, form):
         form.renew_tokens(self.request)
         return super().form_valid(form)
+
+
+class RenewTokenSuccessView(TemplateView):
+    template_name = 'award/success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['feedback'] = markdown("Wir haben dir für alle noch offenen Vorschlägen soeben eine neue E-Mail mit "
+                                       "gültigem Bestätigungslink geschickt. **Sämtliche alte E-Mails mit einem "
+                                       "Bestätigungslink, welche du noch in deinem Postfach hast, sind nun nicht "
+                                       "länger gültig.**")
+        return context
