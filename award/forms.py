@@ -44,9 +44,6 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
 
 
 class SubmissionForm(forms.Form):
-    lecturer = None
-    nomination = None
-
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}),
                                  label="Vorname")
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}),
@@ -79,13 +76,13 @@ class SubmissionForm(forms.Form):
             raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
                                   "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
 
-    def save(self):
-        self.lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
-                                                               last_name=self.cleaned_data['last_name'],
-                                                               faculty=self.cleaned_data['faculty'])
-        self.nomination = Nomination.objects.create(lecturer=self.lecturer,
-                                                    reason=self.cleaned_data['reason'],
-                                                    sub_email=self.cleaned_data['sub_email'])
+    def save(self, request: HttpRequest):
+        lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
+                                                          last_name=self.cleaned_data['last_name'],
+                                                          faculty=self.cleaned_data['faculty'])
+        nomination = Nomination.objects.create(lecturer=lecturer,
+                                               reason=self.cleaned_data['reason'],
+                                               sub_email=self.cleaned_data['sub_email'])
 
-    def send_email(self, request: HttpRequest):
-        send_verification_email(self.nomination, request)
+        send_verification_email(nomination, request)
+

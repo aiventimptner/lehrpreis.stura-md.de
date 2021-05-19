@@ -23,8 +23,7 @@ class SubmissionFormView(FormView):
         return initial
 
     def form_valid(self, form):
-        form.save()
-        form.send_verification_email(self.request)
+        form.save(self.request)
         return super().form_valid(form)
 
 
