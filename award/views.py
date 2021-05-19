@@ -68,6 +68,8 @@ def verify_token(request, token):
             'valid_token': False,
             'title': "Token ist abgelaufen",
             'message': f"Der verwendete Link war nur bis zum {expiry} gültig.",
+            'token_expired': True,
+            'sub_email': verification.nomination.sub_email,
         }
         return render(request, 'award/verification.html', {'feedback': feedback})
 

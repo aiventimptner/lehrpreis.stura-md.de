@@ -8,6 +8,10 @@
     </div>
     <div class="message-body">
         {{ feedback.message }}
+        {% if feedback.token_expired %}
+            Du kannst dir eine neue E-Mail zur Bestätigung schicken lassen. Bitte nutze dafür das entsprechende
+            <a href="{% url 'renew-token' %}?email={{ feedback.sub_email }}">Formular</a>.
+        {% endif %}
     </div>
 </article>
 {% endblock %}
