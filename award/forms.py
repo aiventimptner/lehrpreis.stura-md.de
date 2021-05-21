@@ -64,19 +64,20 @@ class SubmissionForm(forms.Form):
         cleaned_data = super().clean()
 
         try:
-            sub_email, is_student = strip_email_subdomain(cleaned_data.get('sub_email'))
+            sub_email, _ = strip_email_subdomain(cleaned_data.get('sub_email'))
         except AttributeError:
             sub_email = None
 
-        already_submitted = Nomination.objects.filter(
-            lecturer__first_name=cleaned_data.get('first_name'),
-            lecturer__last_name=cleaned_data.get('last_name'),
-            lecturer__faculty=cleaned_data.get('faculty'),
-            sub_email=sub_email,
-        ).exists()
-        if already_submitted:
-            raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
-                                  "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
+        if sub_email:
+            already_submitted = Nomination.objects.filter(
+                lecturer__first_name=cleaned_data.get('first_name'),
+                lecturer__last_name=cleaned_data.get('last_name'),
+                lecturer__faculty=cleaned_data.get('faculty'),
+                sub_email=sub_email,
+            ).exists()
+            if already_submitted:
+                raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
+                                      "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
 
     def save(self, request: HttpRequest):
         lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
@@ -104,15 +105,21 @@ class RenewTokenForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
 
-        pending_nominations = Nomination.objects.filter(
-            sub_email=strip_email_subdomain(cleaned_data.get('email'))[0],
-            is_verified=False,
-        ).exists()
+        try:
+            sub_email, _ = strip_email_subdomain(cleaned_data.get('sub_email'))
+        except AttributeError:
+            sub_email = None
 
-        if not pending_nominations:
-            raise ValidationError("Es konnte kein Vorschlag mit der angegebenen E-Mail-Adresse gefunden werden "
-                                  "oder es sind bereits alle Vorschläge mit dieser E-Mail-Adresse bestätigt.",
-                                  code='unknown')
+        if sub_email:
+            pending_nominations = Nomination.objects.filter(
+                sub_email=sub_email,
+                is_verified=False,
+            ).exists()
+
+            if not pending_nominations:
+                raise ValidationError("Es konnte kein Vorschlag mit der angegebenen E-Mail-Adresse gefunden werden "
+                                      "oder es sind bereits alle Vorschläge mit dieser E-Mail-Adresse bestätigt.",
+                                      code='unknown')
 
     def renew_tokens(self, request: HttpRequest):
         sub_email, is_student = strip_email_subdomain(self.cleaned_data['email'])
