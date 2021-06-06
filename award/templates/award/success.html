@@ -1,11 +1,13 @@
 {% extends 'award/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
     <article class="message is-success">
         <div class="message-header">
             <span class="icon-text">
                 <span>
-                    Erfolg!
+                    {% translate "Success!" %}
                 </span>
                 <span class="icon">
                     <i class="fas fa-grin-beam"></i>

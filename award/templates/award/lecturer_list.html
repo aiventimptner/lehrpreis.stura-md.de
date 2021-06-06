@@ -1,40 +1,26 @@
 {% extends 'award/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
-    <h1 class="title is-1">Lehrpreis der Studierendenschaft</h1>
+    <h1 class="title is-1">{% translate "Teaching Award of the Student Body" %}</h1>
 
-    <h3 class="subtitle is-3">Was ist der Lehrpreis?</h3>
+    <h3 class="subtitle is-3">{% translate "What is the Teaching Award?" %}</h3>
     <div class="content">
-        <p>
-            Der <strong>Lehrpreis der Studierendenschaft</strong> zeichnet Dozierende mit herausragender Lehre aus.
-            Dabei soll im Besonderen die Umstellung des eigenen Lehrangebots auf digitale Mittel sowie das
-            Zurverfügungstellen zusätzlichen Lehrangebots für die Studierende, aufgrund der aktuellen pandemischen
-            Lage, gewürdigt werden. Hierbei können nicht nur Professor:innen vorgeschlagen werden, sondern jede Person,
-            die Lehre an der <a href="https://www.ovgu.de">Otto-von-Guericke-Universität Magdeburg</a> anbietet, so
-            z. Bsp. Übungsleitende oder Praktikumsbetreuende.
-        </p>
-
-        <p>
-            Die eingereichten Vorschläge werden nach <strong>Ablauf der Einreichungsfrist (04.06.2021)</strong> auf
-            einer Sitzung des Studierendenrates besprochen, wobei auch die letztendlichen Gewinner:innen ausgewählt
-            werden. Dabei sollen die bei der Nominierung eingereichten Gründe vorwiegend in die Auswahl der
-            Gewinner:innen einbezogen werden und die Anzahl der unterzeichneten Studierenden nur eine sekundäre Rolle
-            einnehmen. Dadurch wollen wir auch Modulen mit einer geringen Teilnehmerzahl gleichermaßen eine Chance
-            geben, deren Lehrperson zu würdigen.
-        </p>
+        {{ desc|safe }}
     </div>
 
-    <h3 class="subtitle is-3">Eingereichte Vorschläge</h3>
+    <h3 class="subtitle is-3">{% translate "Nominations received" %}</h3>
 
     {% if not lecturer_list %}
-    <div class="notification has-text-centered">
+        <div class="notification has-text-centered">
         <span class="icon-text">
-            <span>Es wurden bisher noch keine Vorschläge eingereicht.</span>
+            <span>{% translate "No nominations have been submitted yet." %}</span>
             <span class="icon">
                 <i class="far fa-frown fa-lg"></i>
             </span>
         </span>
-    </div>
+        </div>
     {% endif %}
 
     <div class="columns is-multiline">
@@ -45,16 +31,16 @@
                         <span class="icon has-text-primary m-5">
                             <i class="fas fa-plus-circle fa-4x"></i>
                         </span>
-                        <p>Neuen Vorschlag einreichen</p>
+                        <p>{% translate "Submit new nomination" %}</p>
                     </div>
                 </div>
             </a>
         </div>
 
         {% for lecturer in lecturer_list %}
-        <div class="column is-one-quarter">
-            {% include 'award/lecturer_card.html' %}
-        </div>
+            <div class="column is-one-quarter">
+                {% include 'award/lecturer_card.html' %}
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.core.validators import validate_slug
 from django.db import models
 from django.db.models import UniqueConstraint, CheckConstraint, Q
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class Lecturer(models.Model):
@@ -24,15 +25,15 @@ class Lecturer(models.Model):
     FMA = 'MA'
 
     FACULTIES = [
-        (FMB, "Maschinenbau"),
-        (FEIT, "Elektro- & Informationstechnik"),
-        (FVST, "Verfahrens- & Systemtechnik"),
-        (FIN, "Informatik"),
-        (FWW, "Wirtschaftswissenschaften"),
-        (FHW, "Humanwissenschaften"),
-        (FNW, "Naturwissenschaften"),
-        (FME, "Medizin"),
-        (FMA, "Mathematik")
+        (FMB, _("Maschinenbau")),
+        (FEIT, _("Elektro- & Informationstechnik")),
+        (FVST, _("Verfahrens- & Systemtechnik")),
+        (FIN, _("Informatik")),
+        (FWW, _("Wirtschaftswissenschaften")),
+        (FHW, _("Humanwissenschaften")),
+        (FNW, _("Naturwissenschaften")),
+        (FME, _("Medizin")),
+        (FMA, _("Mathematik"))
     ]
 
     first_name = models.CharField(max_length=100)
@@ -48,7 +49,7 @@ class Lecturer(models.Model):
 
 def validate_domain(value: str):
     if not value.endswith('@ovgu.de'):
-        raise ValidationError("Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt.")
+        raise ValidationError(_("Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt."))
 
 
 class Nomination(models.Model):

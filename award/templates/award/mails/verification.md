@@ -1,28 +1,27 @@
-Hallo {{ nomination.get_username|title }},
+Hello {{ nomination.get_username|title }},
 
-vielen Dank für deinen Vorschlag. Bitte bestätige als letzten Schritt mittels 
-dieser E-Mail, dass der Vorschlag auch wirklich von dir eingereicht wurde. Dazu 
-musst du lediglich auf den nachfolgenden Link klicken. Der Link ist bis zum 
-**{{ link.expiry }}** gültig!
+thank you for your nomination. As a last step, please confirm via this 
+email that the nomination has been submitted by you. All you have to 
+do is click on the link below. The link is valid until **{{ link.expiry }}**!
 
-[Vorschlag bestätigen]({{ link.url }})
+[confirm nomination]({{ link.url }})
 
-Zum Abgleich findest du im Folgenden noch einmal deine eingereichten Angaben.
+For matching purposes, you can find your submitted details again below.
 
 > {{ lecturer.get_full_name }} ({{ lecturer.faculty }})
-> 
+>
 > {{ nomination.reason }}
 
-Viele Grüße,  
-dein Studierendenrat
+Best regards,  
+your student council
 
 --  
-Studierendenrat der Otto-von-Guericke-Universität Magdeburg  
-Gebäude 26, Raum 002  
+Student Council of the Otto-von-Guericke-University Magdeburg  
+Building 26, Room 002  
 Universitätsplatz 2  
 39106 Magdeburg
 
-Tel.: 0391/67-58971  
-E-Mail: stura@ovgu.de  
+Phone: 0391/67-58971  
+Email: stura@ovgu.de  
 Twitter: [@sturaOVGU](https://twitter.com/sturaOVGU)  
 Instagram: [@stura_ovgu](https://www.instagram.com/stura_ovgu/)

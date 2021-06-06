@@ -1,5 +1,7 @@
 {% extends 'award/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
     {% include 'award/misc/privacy-info.html' with message=privacy %}
 
@@ -7,24 +9,24 @@
         <form method="post">
             {% csrf_token %}
 
-            <h3 class="title is-3">Neuen Vorschlag einreichen</h3>
-            <h5 class="subtitle is-5">Angaben zur Lehrperson</h5>
+            <h3 class="title is-3">{% translate "Submit new nomination" %}</h3>
+            <h5 class="subtitle is-5">{% translate "Details of the teacher" %}</h5>
 
             {% include 'award/forms/input_or_textarea.html' with field=form.first_name %}
             {% include 'award/forms/input_or_textarea.html' with field=form.last_name %}
             {% include 'award/forms/select.html' with field=form.faculty %}
             {% include 'award/forms/input_or_textarea.html' with field=form.reason %}
 
-            <h5 class="subtitle is-5 mt-5">Angaben zur einreichenden Person</h5>
+            <h5 class="subtitle is-5 mt-5">{% translate "Details of the submitting person" %}</h5>
 
             {% include 'award/forms/input_or_textarea.html' with field=form.sub_email %}
 
             <div class="field">
                 <div class="control">
-                    <button type="submit" class="button is-primary">Abschicken</button>
+                    <button type="submit" class="button is-primary">{% translate "Submit" %}</button>
                 </div>
                 {% for error in form.non_field_errors %}
-                <p class="help is-danger">{{ error }}</p>
+                    <p class="help is-danger">{{ error }}</p>
                 {% endfor %}
             </div>
         </form>

@@ -1,8 +1,12 @@
-<article class="message is-info">
-    <div class="message-header">Datenschutz-Hinweis</div>
+<article class="message is-info">{% load i18n %}
+    <div class="message-header">{% translate "Privacy notice" %}</div>
     <div class="message-body">
         {{ message|safe }}
         <br>
-        <p>Unsere <a href="https://stura-md.de/datenschutz/">Datenschutzerklärung</a> findest du auf unser Homepage.</p>
+        <p>
+            {% blocktranslate %}
+                You can find our <a href="https://stura-md.de/datenschutz/">privacy policy</a> on our homepage.
+            {% endblocktranslate %}
+        </p>
     </div>
 </article>

@@ -1,9 +1,9 @@
-<div class="field">
-    <label class="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+<div class="field">{% load i18n %}
+    <label class="label" for="{{ field.id_for_label }}">{% translate field.label %}</label>
     <div class="control">
         {{ field }}
     </div>
     {% for error in field.errors %}
-    <p class="help is-danger">{{ error }}</p>
+    <p class="help is-danger">{% translate error %}</p>
     {% endfor %}
 </div>

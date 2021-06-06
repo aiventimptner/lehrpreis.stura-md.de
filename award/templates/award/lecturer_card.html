@@ -1,17 +1,17 @@
-<div class="card">
+<div class="card">{% load i18n %}
     <div class="card-content">
         <div class="content">
             <h5>{{ lecturer.get_full_name }}</h5>
             <div class="field is-grouped is-grouped-multiline">
                 <div class="control">
                     <div class="tags has-addons">
-                        <span class="tag">Fakultät</span>
+                        <span class="tag">{% translate "Faculty" %}</span>
                         <span class="tag is-info">{{ lecturer.faculty }}</span>
                     </div>
                 </div>
                 <div class="control">
                     <div class="tags has-addons">
-                        <span class="tag">Unterschriften</span>
+                        <span class="tag">{% translate "Signatures" %}</span>
                         <span class="tag is-success">{{ lecturer.nomination_set.count }}</span>
                     </div>
                 </div>
@@ -19,6 +19,7 @@
         </div>
     </div>
     <div class="card-footer">
-        <a href="{% url 'submission-create' %}?first_name={{ lecturer.first_name }}&last_name={{ lecturer.last_name }}&faculty={{ lecturer.faculty }}" class="card-footer-item">Unterzeichnen</a>
+        <a href="{% url 'submission-create' %}?first_name={{ lecturer.first_name }}&last_name={{ lecturer.last_name }}&faculty={{ lecturer.faculty }}"
+           class="card-footer-item">{% translate "Sign" %}</a>
     </div>
 </div>

@@ -6,6 +6,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from markdown import markdown
 
 from .models import Lecturer, Nomination, Verification, validate_domain
@@ -24,14 +25,14 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
 
     link = {
         'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
-        'expiry': timezone.make_naive(expiration).strftime('%d.%m.%y um %H:%M Uhr'),
+        'expiry': timezone.make_naive(expiration),
     }
 
     message = render_to_string('award/mails/verification.md', {'nomination': nomination,
                                                                'lecturer': nomination.lecturer,
                                                                'link': link})
 
-    email = EmailMultiAlternatives(subject="Dein Vorschlag für den Lehrpreis der Studierendenschaft",
+    email = EmailMultiAlternatives(subject=_("Your nomination for the teaching award of the student body"),
                                    body=message,
                                    to=[nomination.get_valid_email()],
                                    reply_to=['verwaltung@stura-md.de'])
@@ -40,16 +41,12 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
 
 
 class SubmissionForm(forms.Form):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}),
-                                 label="Vorname")
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}),
-                                label="Nachname")
-    faculty = forms.CharField(widget=forms.Select(choices=Lecturer.FACULTIES),
-                              label="Fakultät")
-    reason = forms.CharField(widget=forms.Textarea(attrs={'class': 'textarea', 'rows': 3}),
-                             label="Begründung")
-    sub_email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}),
-                                 label="E-Mail-Adresse")
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}), label=_("First name"))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}), label=_("Last name"))
+    # TODO Translate choices
+    faculty = forms.CharField(widget=forms.Select(choices=Lecturer.FACULTIES), label=_("Faculty"))
+    reason = forms.CharField(widget=forms.Textarea(attrs={'class': 'textarea', 'rows': 3}), label=_("Reason"))
+    sub_email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}), label=_("Email address"))
 
     def clean_sub_email(self):
         data = self.cleaned_data['sub_email'].lower()
@@ -57,14 +54,14 @@ class SubmissionForm(forms.Form):
             # Override default validation message because email host hasn't been cleaned yet
             validate_domain(strip_email_subdomain(data)[0])
         except ValidationError:
-            raise ValidationError("Es sind nur E-Mail-Adresse der folgenden Domains erlaubt: st.ovgu.de, ovgu.de")
+            raise ValidationError(_("Only email addresses of the following domains are allowed: st.ovgu.de, ovgu.de"))
         return data
 
     def clean(self):
         cleaned_data = super().clean()
 
         try:
-            sub_email, _ = strip_email_subdomain(cleaned_data.get('sub_email'))
+            sub_email, is_student = strip_email_subdomain(cleaned_data.get('sub_email'))
         except AttributeError:
             sub_email = None
 
@@ -76,8 +73,10 @@ class SubmissionForm(forms.Form):
                 sub_email=sub_email,
             ).exists()
             if already_submitted:
-                raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
-                                      "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
+                raise ValidationError(
+                    _("A nomination for this teacher in combination with the "
+                      "given email address were already received."),
+                    code='ambiguous')
 
     def save(self, request: HttpRequest):
         lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
@@ -97,7 +96,7 @@ class SubmissionForm(forms.Form):
 
 
 class RenewTokenForm(forms.Form):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}), label="E-Mail-Adresse")
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}), label=_("Email address"))
 
     def clean_email(self):
         return self.cleaned_data['email'].lower()
@@ -106,7 +105,7 @@ class RenewTokenForm(forms.Form):
         cleaned_data = super().clean()
 
         try:
-            sub_email, _ = strip_email_subdomain(cleaned_data.get('sub_email'))
+            sub_email, is_student = strip_email_subdomain(cleaned_data.get('sub_email'))
         except AttributeError:
             sub_email = None
 
@@ -117,9 +116,10 @@ class RenewTokenForm(forms.Form):
             ).exists()
 
             if not pending_nominations:
-                raise ValidationError("Es konnte kein Vorschlag mit der angegebenen E-Mail-Adresse gefunden werden "
-                                      "oder es sind bereits alle Vorschläge mit dieser E-Mail-Adresse bestätigt.",
-                                      code='unknown')
+                raise ValidationError(
+                    _("No nomination with the specified email address could be found or "
+                      "all nominations with this email address are already confirmed."),
+                    code='unknown')
 
     def renew_tokens(self, request: HttpRequest):
         sub_email, is_student = strip_email_subdomain(self.cleaned_data['email'])
