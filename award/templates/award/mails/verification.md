@@ -1,4 +1,4 @@
-Hallo {{ nomination.get_first_name }},
+Hallo {{ nomination.get_username|title }},
 
 vielen Dank für deinen Vorschlag. Bitte bestätige als letzten Schritt mittels 
 dieser E-Mail, dass der Vorschlag auch wirklich von dir eingereicht wurde. Dazu 
