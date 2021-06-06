@@ -76,7 +76,7 @@ def verify_token(request, token):
     nomination = verification.nomination
     verification.delete()
 
-    nomination.verified = True
+    nomination.is_verified = True
     nomination.save()
 
     lecturer = nomination.lecturer
