@@ -1,0 +1,44 @@
+<section class="hero is-fullheight is-danger">
+    <div class="hero-body">
+        <div class="container">
+            <p class="title">
+                {{ title }}
+            </p>
+            <p class="subtitle">
+                {{ subtitle }}
+            </p>
+            <ul>
+                <li><a href="{% url 'lecturer-list' %}">
+                    <span class="icon-text">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        <span>
+                            Zurück zur Startseite
+                        </span>
+                    </span>
+                </a></li>
+                <li><a href="mailto:technik@stura-md.de">
+                    <span class="icon-text">
+                        <span class="icon">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span>
+                            Problem per E-Mail melden
+                        </span>
+                    </span>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="hero-foot">
+        <nav class="tabs is-centered is-toggle is-toggle-rounded m-3">
+            <div class="container">
+                <ul>
+                    <li><a href="https://stura-md.de/impressum/">Impressum</a></li>
+                    <li><a href="https://stura-md.de/datenschutz/">Datenschutz</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
