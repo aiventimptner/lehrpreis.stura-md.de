@@ -45,7 +45,11 @@ EMAIL_HOST_USER = os.environ['EMAIL_USER']
 
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
 
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_EMAIL', 'no-reply@stura-md.de')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_EMAIL', 'noreply@stura-md.de')
+
+ADMINS = [('Verwaltung', 'verwaltung@stura-md.de'), ('Technik', 'technik@stura-md.de')]
+
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'noreply@stura-md.de')
 
 
 # Static files
