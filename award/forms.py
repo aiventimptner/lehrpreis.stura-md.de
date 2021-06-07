@@ -62,22 +62,29 @@ class SubmissionForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+        faculty = cleaned_data.get('faculty')
+        sub_email = cleaned_data.get('sub_email')
 
-        try:
-            sub_email, _ = strip_email_subdomain(cleaned_data.get('sub_email'))
-        except AttributeError:
-            sub_email = None
+        if first_name and last_name:
+            lecturer = Lecturer.objects.get(first_name=first_name, last_name=last_name)
+            if lecturer.faculty != faculty:
+                msg = (f"Studierende vor dir haben diese Lehrperson als Teil der "
+                       f"F{lecturer.faculty} angeben. Sollte das nicht "
+                       f"korrekt sein, schreibe uns bitte eine Mail an 'verwaltung@stura-md.de'.\n"
+                       f"Falls es an beiden Fakultäten (F{lecturer.faculty}, F{faculty}) jeweils eine "
+                       f"Person mit diesem Namen geben sollte, melde dich bitte ebenfalls per E-Mail bei "
+                       f"uns.")
+                self.add_error('faculty', msg)
+                return
 
-        if sub_email:
-            already_submitted = Nomination.objects.filter(
-                lecturer__first_name=cleaned_data.get('first_name'),
-                lecturer__last_name=cleaned_data.get('last_name'),
-                lecturer__faculty=cleaned_data.get('faculty'),
-                sub_email=sub_email,
-            ).exists()
-            if already_submitted:
-                raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
-                                      "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
+            if sub_email:
+                email, is_student = strip_email_subdomain(sub_email)
+                nomination = Nomination.objects.filter(lecturer=lecturer, sub_email=email)
+                if nomination.exists():
+                    raise ValidationError("Eine Unterschrift für diese Lehrperson in Kombination "
+                                          "mit der angegeben E-Mail-Adresse liegt bereits vor.", code='ambiguous')
 
     def save(self, request: HttpRequest):
         lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
