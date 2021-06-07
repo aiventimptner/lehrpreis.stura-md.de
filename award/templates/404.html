@@ -1,5 +1,7 @@
 {% extends 'award/base.html' %}
 
+{% load i18n %}
+
 {% block body %}
-{% include 'error.html' with title="Seite nicht gefunden" subtitle="Hier ist leider keine Schatzkiste versteckt." %}
+{% include 'error.html' with title=_("Not Found") subtitle=_("Just a blank page. There is no treasure chest hidden here.") %}
 {% endblock %}

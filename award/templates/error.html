@@ -1,4 +1,4 @@
-<section class="hero is-fullheight is-danger">
+<section class="hero is-fullheight is-danger">{% load i18n %}
     <div class="hero-body">
         <div class="container">
             <p class="title">
@@ -14,7 +14,7 @@
                             <i class="fas fa-home"></i>
                         </span>
                         <span>
-                            Zurück zur Startseite
+                            {% translate "Back to home page" %}
                         </span>
                     </span>
                 </a></li>
@@ -24,7 +24,7 @@
                             <i class="fas fa-envelope"></i>
                         </span>
                         <span>
-                            Problem per E-Mail melden
+                            {% translate "Report problem by email" %}
                         </span>
                     </span>
                 </a></li>
@@ -35,8 +35,8 @@
         <nav class="tabs is-centered is-toggle is-toggle-rounded m-3">
             <div class="container">
                 <ul>
-                    <li><a href="https://stura-md.de/impressum/">Impressum</a></li>
-                    <li><a href="https://stura-md.de/datenschutz/">Datenschutz</a></li>
+                    <li><a href="https://stura-md.de/impressum/">{% translate "Imprint" %}</a></li>
+                    <li><a href="https://stura-md.de/datenschutz/">{% translate "Privacy policy" %}</a></li>
                 </ul>
             </div>
         </nav>

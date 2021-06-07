@@ -1,5 +1,7 @@
 {% extends 'award/base.html' %}
 
+{% load i18n %}
+
 {% block body %}
-{% include 'error.html' with title="Zugriff verweigert" subtitle="Dir fehlen leider die nötigen Berechtigungen um die Seite angezeigt zu bekommen." %}
+{% include 'error.html' with title=_("Forbidden") subtitle=_("Unfortunately, you do not have the necessary permissions to view this page.") %}
 {% endblock %}
