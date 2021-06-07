@@ -9,7 +9,7 @@ from .models import Lecturer, Verification
 
 class LecturerListView(ListView):
     model = Lecturer
-    queryset = Lecturer.objects.filter(nomination__is_verified=True).distinct()
+    queryset = Lecturer.objects.filter(nomination__is_verified=True).distinct().order_by('first_name', 'last_name')
 
 
 class SubmissionFormView(FormView):
