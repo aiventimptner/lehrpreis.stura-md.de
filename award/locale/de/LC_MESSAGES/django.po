@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 00:22+0200\n"
+"POT-Creation-Date: 2021-06-07 08:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,40 +67,40 @@ msgstr ""
 "oder es sind bereits alle Vorschläge mit dieser E-Mail-Adresse bestätigt."
 
 #: models.py:28
-msgid "Maschinenbau"
-msgstr "Mechanical Engineering"
+msgid "Mechanical Engineering"
+msgstr "Maschinenbau"
 
 #: models.py:29
-msgid "Elektro- & Informationstechnik"
-msgstr "Electrical Engineering & Information Technology"
+msgid "Electrical Engineering & Information Technology"
+msgstr "Elektro- & Informationstechnik"
 
 #: models.py:30
-msgid "Verfahrens- & Systemtechnik"
-msgstr "Process & Systems Engineering"
+msgid "Process & Systems Engineering"
+msgstr "Verfahrens- & Systemtechnik"
 
 #: models.py:31
-msgid "Informatik"
-msgstr "Computer Science"
+msgid "Computer Science"
+msgstr "Informatik"
 
 #: models.py:32
-msgid "Wirtschaftswissenschaften"
-msgstr "Economics and Management"
+msgid "Economics and Management"
+msgstr "Wirtschaftswissenschaften"
 
 #: models.py:33
-msgid "Humanwissenschaften"
-msgstr "Humanities, Social Science & Education"
+msgid "Humanities, Social Science & Education"
+msgstr "Humanwissenschaften"
 
 #: models.py:34
-msgid "Naturwissenschaften"
-msgstr "Natural Science"
+msgid "Natural Science"
+msgstr "Naturwissenschaften"
 
 #: models.py:35
-msgid "Medizin"
-msgstr "Medicine"
+msgid "Medicine"
+msgstr "Medizin"
 
 #: models.py:36
-msgid "Mathematik"
-msgstr "Mathematics"
+msgid "Mathematics"
+msgstr "Mathematik"
 
 #: models.py:52
 msgid "Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt."

@@ -25,15 +25,15 @@ class Lecturer(models.Model):
     FMA = 'MA'
 
     FACULTIES = [
-        (FMB, _("Maschinenbau")),
-        (FEIT, _("Elektro- & Informationstechnik")),
-        (FVST, _("Verfahrens- & Systemtechnik")),
-        (FIN, _("Informatik")),
-        (FWW, _("Wirtschaftswissenschaften")),
-        (FHW, _("Humanwissenschaften")),
-        (FNW, _("Naturwissenschaften")),
-        (FME, _("Medizin")),
-        (FMA, _("Mathematik"))
+        (FMB, _("Mechanical Engineering")),
+        (FEIT, _("Electrical Engineering & Information Technology")),
+        (FVST, _("Process & Systems Engineering")),
+        (FIN, _("Computer Science")),
+        (FWW, _("Economics and Management")),
+        (FHW, _("Humanities, Social Science & Education")),
+        (FNW, _("Natural Science")),
+        (FME, _("Medicine")),
+        (FMA, _("Mathematics"))
     ]
 
     first_name = models.CharField(max_length=100)

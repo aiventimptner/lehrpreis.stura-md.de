@@ -43,7 +43,6 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
 class SubmissionForm(forms.Form):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}), label=_("First name"))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input'}), label=_("Last name"))
-    # TODO Translate choices
     faculty = forms.CharField(widget=forms.Select(choices=Lecturer.FACULTIES), label=_("Faculty"))
     reason = forms.CharField(widget=forms.Textarea(attrs={'class': 'textarea', 'rows': 3}), label=_("Reason"))
     sub_email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'input'}), label=_("Email address"))
