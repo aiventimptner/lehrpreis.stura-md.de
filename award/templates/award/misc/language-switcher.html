@@ -1,0 +1,23 @@
+<div class="dropdown is-up is-hoverable">{% load i18n %}
+    <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="language-switcher">
+            <span class="icon is-small">
+                <i class="fas fa-globe"></i>
+            </span>
+        </button>
+    </div>
+
+    <div class="dropdown-menu" id="language-switcher" role="menu">
+        <div class="dropdown-content">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <a href="{% url 'set_language' language.code %}?redirect_to={{ request.get_full_path|slice:'3:' }}"
+                   class="dropdown-item{% if language.code == LANGUAGE_CODE %} is-active{% endif %}">
+                    {{ language.name_local }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>

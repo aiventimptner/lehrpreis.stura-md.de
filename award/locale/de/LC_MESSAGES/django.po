@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 18:25+0200\n"
+"POT-Creation-Date: 2021-06-08 19:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,37 +106,39 @@ msgstr "Mathematik"
 msgid "Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt."
 msgstr "Only email addresses ending with '@ovgu.de' are allowed."
 
-#: templates/400.html:4
+#: templates/400.html:6
 msgid "Bad Request"
 msgstr "Fehlerhafte Anfrage"
 
-#: templates/400.html:5
+#: templates/400.html:6
 msgid "Your request was malformed. Please try again."
-msgstr "Deine Anfrage konnte nicht verarbeitet werden. Versuche es einfach noch einmal."
+msgstr ""
+"Deine Anfrage konnte nicht verarbeitet werden. Versuche es einfach noch "
+"einmal."
 
-#: templates/403.html:4
+#: templates/403.html:6
 msgid "Forbidden"
 msgstr "Zugriff verweigert"
 
-#: templates/403.html:5
+#: templates/403.html:6
 msgid ""
 "Unfortunately, you do not have the necessary permissions to view this page."
 msgstr ""
 "Du hast leider nicht die nötigen Berechtigungen um diese Seite anzuzeigen"
 
-#: templates/404.html:4
+#: templates/404.html:6
 msgid "Not Found"
 msgstr "Seite wurde nicht gefunden"
 
-#: templates/404.html:5
+#: templates/404.html:6
 msgid "Just a blank page. There is no treasure chest hidden here."
 msgstr "Nur eine leere Seite. Hier ist keine Schatzkiste versteckt."
 
-#: templates/500.html:4
+#: templates/500.html:6
 msgid "Internal Server Error"
 msgstr "Server-Fehler"
 
-#: templates/500.html:5
+#: templates/500.html:6
 msgid "Unfortunately there was a problem on our side. Sorry for that!"
 msgstr "Leider ist bei uns einen Fehler aufgetreten. Sorry dafür!"
 
