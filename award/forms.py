@@ -7,7 +7,6 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from markdown import markdown
 
 from .models import Lecturer, Nomination, Verification, validate_domain
 
@@ -28,15 +27,20 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
         'expiry': timezone.make_naive(expiration),
     }
 
-    message = render_to_string('award/mails/verification.md', {'nomination': nomination,
-                                                               'lecturer': nomination.lecturer,
-                                                               'link': link})
+    data = {
+        'nomination': nomination,
+        'lecturer': nomination.lecturer,
+        'link': link,
+    }
+
+    msg_html = render_to_string('award/mails/verification.html', data)
+    msg_plain = render_to_string('award/mails/verification.txt', data)
 
     email = EmailMultiAlternatives(subject=_("Your nomination for the teaching award of the student body"),
-                                   body=message,
+                                   body=msg_plain,
                                    to=[nomination.get_valid_email()],
                                    reply_to=['verwaltung@stura-md.de'])
-    email.attach_alternative(markdown(message), 'text/html')
+    email.attach_alternative(msg_html, 'text/html')
     email.send()
 
 

@@ -1,0 +1,53 @@
+{% load i18n %}
+{% blocktranslate with name=nomination.get_username|title expiry=link.expiry url=link.url lecturer=lecturer.get_full_name faculty=lecturer.faculty reason=nomination.reason %}
+    <p>Hello {{ name }},</p>
+
+    <p>
+        thank you for your nomination. As a last step, please confirm via this
+        email that the nomination has been submitted by you. All you have to
+        do is click on the link below. The link is valid until <strong>{{ expiry }}</strong>!
+    </p>
+
+    <p><a href="{{ url }}">Confirm nomination</a></p>
+
+    <p>For matching purposes, you can find your submitted details again below.</p>
+
+    <blockquote>
+        {{ lecturer }} ({{ faculty }})<br>
+        {{ reason }}
+    </blockquote>
+
+    <p>
+        Best regards,<br>
+        your student council
+    </p>
+
+    <footer>
+        --
+        <address>
+            Student Council of the Otto-von-Guericke-University Magdeburg<br>
+            Building 26, Room 002<br>
+            Universitätsplatz 2<br>
+            39106 Magdeburg
+        </address>
+
+        <table style="margin-top: 10px; margin-bottom: 10px;">
+            <tr>
+                <td>Phone:</td>
+                <td><a href="tel:+49-391-67-58971">0391/67-58971</a></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><a href="mailto:stura@ovgu.de">stura@ovgu.de</a></td>
+            </tr>
+            <tr>
+                <td>Twitter:</td>
+                <td><a href="https://twitter.com/sturaOVGU">@sturaOVGU</a></td>
+            </tr>
+            <tr>
+                <td>Instagram:</td>
+                <td><a href="https://www.instagram.com/stura_ovgu/">@stura_ovgu</a></td>
+            </tr>
+        </table>
+    </footer>
+{% endblocktranslate %}
