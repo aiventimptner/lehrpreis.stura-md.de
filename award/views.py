@@ -1,4 +1,5 @@
-from datetime import date
+from django.core.exceptions import FieldError
+from django.db.models import Q
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -6,32 +7,54 @@ from django.views.generic import ListView, TemplateView, FormView
 from markdown import markdown
 
 from .forms import SubmissionForm, RenewTokenForm
-from .models import Lecturer, Verification
+from .models import Lecturer, Verification, Nomination
 
 
 class LecturerListView(ListView):
     model = Lecturer
-    queryset = Lecturer.objects.filter(nomination__is_verified=True).distinct()
+
+    def get_queryset(self):
+        query = Lecturer.objects.filter(
+            nomination__is_verified=True
+        ).distinct()
+        search = self.request.GET.get('q')
+        if search:
+            for word in search.split(' '):
+                try:
+                    query = query.filter(
+                        Q(first_name__unaccent__lower__trigram_search=word) |
+                        Q(last_name__unaccent__lower__trigram_search=word)
+                    )
+                except FieldError:
+                    query = query.filter(
+                        Q(first_name__icontains=word) | Q(last_name__icontains=word)
+                    )
+        return query.order_by('faculty', 'first_name', 'last_name')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['desc'] = markdown(_("The **Teaching Award of the Student Body** honors lecturers with outstanding "
-                                     "teaching. In particular, the conversion of their own teaching to digital means "
-                                     "and the provision of additional teaching for students, due to the current "
-                                     "pandemic situation, should be recognized. Not only professors can be nominated, "
-                                     "but also any person who offers teaching at "
-                                     "[Otto-von-Guericke-University Magdeburg](https://www.ovgu.de), e.g. lecturers "
-                                     "or internship supervisors.\n"
-                                     "\n"
-                                     "The submitted nominations will be discussed at a meeting of the Student Council "
-                                     "after the **submission deadline (%(month)s %(day)s, %(year)s)**, where the "
-                                     "final winners will also be selected. In this process, the reasons submitted "
-                                     "during the nomination process shall be predominantly included in the selection "
-                                     "of the winners and the number of signed students shall only play a secondary "
-                                     "role. In this way, we also want to give modules with a low number of "
-                                     "participants an equal chance to have their "
-                                     "teacher recognized.") % {'year': "2021", 'month': _("June"), 'day': "20"})
-        return context
+        data = super().get_context_data()
+        data['stats'] = {
+            'votes': Nomination.objects.count(),
+            'votes_verified': Nomination.objects.filter(is_verified=True).count(),
+            'unique_users': Nomination.objects.values('sub_email').distinct().count(),
+        }
+        data['desc'] = markdown(_("The **Teaching Award of the Student Body** honors lecturers with outstanding "
+                                  "teaching. In particular, the conversion of their own teaching to digital means "
+                                  "and the provision of additional teaching for students, due to the current "
+                                  "pandemic situation, should be recognized. Not only professors can be nominated, "
+                                  "but also any person who offers teaching at "
+                                  "[Otto-von-Guericke-University Magdeburg](https://www.ovgu.de), e.g. lecturers "
+                                  "or internship supervisors.\n"
+                                  "\n"
+                                  "The submitted nominations will be discussed at a meeting of the Student Council "
+                                  "after the **submission deadline (%(month)s %(day)s, %(year)s)**, where the "
+                                  "final winners will also be selected. In this process, the reasons submitted "
+                                  "during the nomination process shall be predominantly included in the selection "
+                                  "of the winners and the number of signed students shall only play a secondary "
+                                  "role. In this way, we also want to give modules with a low number of "
+                                  "participants an equal chance to have their "
+                                  "teacher recognized.") % {'year': "2021", 'month': _("June"), 'day': "20"})
+        return data
 
 
 class SubmissionFormView(FormView):

@@ -58,24 +58,34 @@ class SubmissionForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+        faculty = cleaned_data.get('faculty')
+        sub_email = cleaned_data.get('sub_email')
 
-        try:
-            sub_email, is_student = strip_email_subdomain(cleaned_data.get('sub_email'))
-        except AttributeError:
-            sub_email = None
+        if first_name and last_name:
+            try:
+                lecturer = Lecturer.objects.get(first_name=first_name, last_name=last_name)
+            except Lecturer.DoesNotExist:
+                lecturer = None
+            if lecturer and lecturer.faculty != faculty:
+                msg = _("Students before you have indicated this lecturer as part "
+                        "of the F%(lecturer_faculty)s. If this is not correct, please "
+                        "email us at 'verwaltung@stura-md.de'.\n"
+                        "If there should be a person with this name at both "
+                        "faculties (F%(lecturer_faculty)s, F%(faculty)s), please contact "
+                        "us via email as well." % {'lecturer_faculty': lecturer.faculty, 'faculty': faculty})
+                self.add_error('faculty', msg)
+                return
 
-        if sub_email:
-            already_submitted = Nomination.objects.filter(
-                lecturer__first_name=cleaned_data.get('first_name'),
-                lecturer__last_name=cleaned_data.get('last_name'),
-                lecturer__faculty=cleaned_data.get('faculty'),
-                sub_email=sub_email,
-            ).exists()
-            if already_submitted:
-                raise ValidationError(
-                    _("A nomination for this teacher in combination with the "
-                      "given email address were already received."),
-                    code='ambiguous')
+            if sub_email:
+                email, is_student = strip_email_subdomain(sub_email)
+                nomination = Nomination.objects.filter(lecturer=lecturer, sub_email=email)
+                if nomination.exists():
+                    raise ValidationError(
+                        _("A nomination for this teacher in combination with the "
+                          "given email address were already received."),
+                        code='ambiguous')
 
     def save(self, request: HttpRequest):
         lecturer, create = Lecturer.objects.get_or_create(first_name=self.cleaned_data['first_name'],
