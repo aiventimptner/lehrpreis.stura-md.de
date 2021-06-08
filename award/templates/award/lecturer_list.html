@@ -84,25 +84,27 @@
 
         <div class="column is-one-quarter">
             <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">Statistik</p>
-                </header>
-                <table class="table is-fullwidth">
-                    <tbody>
-                    <tr>
-                        <td>Vorschläge</td>
-                        <td>{{ stats.votes }}</td>
-                    </tr>
-                    <tr>
-                        <td>Lehrpersonen</td>
-                        <td>{{ lecturer_list.count }}</td>
-                    </tr>
-                    <tr>
-                        <td>Studierende</td>
-                        <td>{{ stats.unique_users }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="card-content">
+                    <div class="content">
+                        <h5 class="title is-5">Statistik</h5>
+                        <table class="table is-fullwidth">
+                            <tbody>
+                            <tr>
+                                <td>Vorschläge</td>
+                                <td>{{ stats.votes }}</td>
+                            </tr>
+                            <tr>
+                                <td>Lehrpersonen</td>
+                                <td>{{ lecturer_list.count }}</td>
+                            </tr>
+                            <tr>
+                                <td>Studierende</td>
+                                <td>{{ stats.unique_users }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
