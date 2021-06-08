@@ -68,8 +68,11 @@ class SubmissionForm(forms.Form):
         sub_email = cleaned_data.get('sub_email')
 
         if first_name and last_name:
-            lecturer = Lecturer.objects.get(first_name=first_name, last_name=last_name)
-            if lecturer.faculty != faculty:
+            try:
+                lecturer = Lecturer.objects.get(first_name=first_name, last_name=last_name)
+            except Lecturer.DoesNotExist:
+                lecturer = None
+            if lecturer and lecturer.faculty != faculty:
                 msg = (f"Studierende vor dir haben diese Lehrperson als Teil der "
                        f"F{lecturer.faculty} angeben. Sollte das nicht "
                        f"korrekt sein, schreibe uns bitte eine Mail an 'verwaltung@stura-md.de'.\n"
