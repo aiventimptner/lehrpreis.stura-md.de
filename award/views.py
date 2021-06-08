@@ -1,3 +1,5 @@
+from django.core.exceptions import FieldError
+from django.db.models import Q
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.views.generic import ListView, TemplateView, FormView
@@ -9,9 +11,23 @@ from .models import Lecturer, Verification, Nomination
 
 class LecturerListView(ListView):
     model = Lecturer
-    queryset = Lecturer.objects.filter(
-        nomination__is_verified=True
-    ).distinct().order_by('faculty', 'first_name', 'last_name')
+
+    def get_queryset(self):
+        query = Lecturer.objects.filter(
+            nomination__is_verified=True
+        ).distinct()
+        search = self.request.GET.get('q')
+        if search:
+            try:
+                query = query.filter(
+                    Q(first_name__unaccent__lower__trigram_search=search) |
+                    Q(last_name__unaccent__lower__trigram_search=search)
+                )
+            except FieldError:
+                query = query.filter(
+                    Q(first_name__icontains=search) | Q(last_name__icontains=search)
+                )
+        return query.order_by('faculty', 'first_name', 'last_name')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data()

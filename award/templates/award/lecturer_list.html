@@ -26,7 +26,7 @@
 
     <h3 class="subtitle is-3">Eingereichte Vorschläge</h3>
 
-    {% if not lecturer_list %}
+    {% if not lecturer_list and not request.GET.q %}
         <div class="notification has-text-centered">
         <span class="icon-text">
             <span>Es wurden bisher noch keine Vorschläge eingereicht.</span>
@@ -50,6 +50,38 @@
                 </div>
             </a>
         </div>
+
+        <div class="column is-half">
+            <div class="card">
+                <div class="card-content">
+                    <form>
+                        <div class="field">
+                            <label class="label" for="search">Suche</label>
+                            <div class="field is-grouped">
+                                <p class="control is-expanded has-icons-left">
+                                    <input class="input" type="text" placeholder="Maxi Mustermensch" id="search"
+                                           name="q" value="{{ request.GET.q }}">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </p>
+                                <div class="control">
+                                    <button class="button is-link" type="submit">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-rocket"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                            {% if request.GET.q %}
+                                <a class="help is-danger" href="{% url 'lecturer-list' %}">Sucheintrag löschen</a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="column is-one-quarter">
             <div class="card">
                 <header class="card-header">
