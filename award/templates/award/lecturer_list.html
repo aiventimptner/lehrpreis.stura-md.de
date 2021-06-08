@@ -3,6 +3,10 @@
 {% load i18n %}
 
 {% block content %}
+    {% if show_language_info %}
+        {% include 'award/misc/language-info.html' %}
+    {% endif %}
+
     <h1 class="title is-1">{% translate "Teaching Award of the Student Body" %}</h1>
 
     <h3 class="subtitle is-3">{% translate "What is the Teaching Award?" %}</h3>
@@ -60,7 +64,8 @@
                                 </div>
                             </div>
                             {% if request.GET.q %}
-                                <a class="help is-danger" href="{% url 'lecturer-list' %}">{% translate "Reset query" %}</a>
+                                <a class="help is-danger"
+                                   href="{% url 'lecturer-list' %}">{% translate "Reset query" %}</a>
                             {% endif %}
                         </div>
                     </form>

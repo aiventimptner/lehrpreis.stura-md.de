@@ -1,5 +1,6 @@
 from django.core.exceptions import FieldError
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +13,10 @@ from .models import Lecturer, Verification, Nomination
 
 class LecturerListView(ListView):
     model = Lecturer
+
+    def post(self, request, *args, **kwargs):
+        request.session['has_dismissed_language_info'] = True
+        return HttpResponseRedirect(reverse('lecturer-list'))
 
     def get_queryset(self):
         query = Lecturer.objects.filter(
