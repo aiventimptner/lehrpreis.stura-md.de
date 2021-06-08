@@ -4,14 +4,23 @@ from django.views.generic import ListView, TemplateView, FormView
 from markdown import markdown
 
 from .forms import SubmissionForm, RenewTokenForm
-from .models import Lecturer, Verification
+from .models import Lecturer, Verification, Nomination
 
 
 class LecturerListView(ListView):
     model = Lecturer
-    queryset = Lecturer.objects.filter(nomination__is_verified=True).distinct().order_by('faculty',
-                                                                                         'first_name',
-                                                                                         'last_name')
+    queryset = Lecturer.objects.filter(
+        nomination__is_verified=True
+    ).distinct().order_by('faculty', 'first_name', 'last_name')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data()
+        data['stats'] = {
+            'votes': Nomination.objects.count(),
+            'votes_verified': Nomination.objects.filter(is_verified=True).count(),
+            'unique_users': Nomination.objects.values('sub_email').distinct().count(),
+        }
+        return data
 
 
 class SubmissionFormView(FormView):

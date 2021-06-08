@@ -27,27 +27,52 @@
     <h3 class="subtitle is-3">Eingereichte Vorschläge</h3>
 
     {% if not lecturer_list %}
-    <div class="notification has-text-centered">
+        <div class="notification has-text-centered">
         <span class="icon-text">
             <span>Es wurden bisher noch keine Vorschläge eingereicht.</span>
             <span class="icon">
                 <i class="far fa-frown fa-lg"></i>
             </span>
         </span>
-    </div>
+        </div>
     {% endif %}
 
-    <div class="column is-one-quarter">
-        <a href="{% url 'submission-create' %}">
-            <div class="card">
-                <div class="card-content has-text-centered">
-                    <span class="icon has-text-primary m-5">
-                        <i class="fas fa-plus-circle fa-4x"></i>
-                    </span>
-                    <p>Neuen Vorschlag einreichen</p>
+    <div class="columns is-multiline">
+        <div class="column is-one-quarter">
+            <a href="{% url 'submission-create' %}">
+                <div class="card">
+                    <div class="card-content has-text-centered">
+                        <span class="icon has-text-primary m-5">
+                            <i class="fas fa-plus-circle fa-4x"></i>
+                        </span>
+                        <p>Neuen Vorschlag einreichen</p>
+                    </div>
                 </div>
+            </a>
+        </div>
+        <div class="column is-one-quarter">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">Statistik</p>
+                </header>
+                <table class="table is-fullwidth">
+                    <tbody>
+                    <tr>
+                        <td>Vorschläge</td>
+                        <td>{{ stats.votes }}</td>
+                    </tr>
+                    <tr>
+                        <td>Lehrpersonen</td>
+                        <td>{{ lecturer_list.count }}</td>
+                    </tr>
+                    <tr>
+                        <td>Studierende</td>
+                        <td>{{ stats.unique_users }}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </a>
+        </div>
     </div>
 
     {% regroup lecturer_list by get_faculty_display as lecturers %}
@@ -55,9 +80,9 @@
         <h5 class="title is-5 has-text-centered">{{ faculty }}</h5>
         <div class="columns is-multiline">
             {% for lecturer in faculty_lecturer %}
-            <div class="column is-one-quarter">
-                {% include 'award/lecturer_card.html' %}
-            </div>
+                <div class="column is-one-quarter">
+                    {% include 'award/lecturer_card.html' %}
+                </div>
             {% endfor %}
         </div>
     {% endfor %}
