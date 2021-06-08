@@ -1,5 +1,6 @@
 import secrets
 
+from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_slug
 from django.db import models
@@ -94,5 +95,6 @@ class Verification(models.Model):
     def __str__(self):
         return self.token
 
+    @admin.display(boolean=True)
     def is_expired(self):
         return timezone.now() > self.expiration
