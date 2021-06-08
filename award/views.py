@@ -18,15 +18,16 @@ class LecturerListView(ListView):
         ).distinct()
         search = self.request.GET.get('q')
         if search:
-            try:
-                query = query.filter(
-                    Q(first_name__unaccent__lower__trigram_search=search) |
-                    Q(last_name__unaccent__lower__trigram_search=search)
-                )
-            except FieldError:
-                query = query.filter(
-                    Q(first_name__icontains=search) | Q(last_name__icontains=search)
-                )
+            for word in search.split(' '):
+                try:
+                    query = query.filter(
+                        Q(first_name__unaccent__lower__trigram_search=word) |
+                        Q(last_name__unaccent__lower__trigram_search=word)
+                    )
+                except FieldError:
+                    query = query.filter(
+                        Q(first_name__icontains=word) | Q(last_name__icontains=word)
+                    )
         return query.order_by('faculty', 'first_name', 'last_name')
 
     def get_context_data(self, **kwargs):
