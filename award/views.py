@@ -142,7 +142,7 @@ def verify_token(request, token):
 
 class RenewTokenView(FormView):
     form_class = RenewTokenForm
-    template_name = 'award/renew-token.html'
+    template_name = 'award/renew_token.html'
     success_url = 'success/'
 
     def get_context_data(self, **kwargs):

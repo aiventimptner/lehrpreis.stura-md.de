@@ -4,7 +4,7 @@
 
 {% block content %}
     {% if show_language_info %}
-        {% include 'award/misc/language-info.html' %}
+        {% include 'award/snippets/language_info.html' %}
     {% endif %}
 
     <h1 class="title is-1">{% translate "Teaching Award of the Student Body" %}</h1>
@@ -106,7 +106,7 @@
         <div class="columns is-multiline">
             {% for lecturer in faculty_lecturer %}
                 <div class="column is-one-quarter">
-                    {% include 'award/lecturer_card.html' %}
+                    {% include 'award/snippets/lecturer_card.html' %}
                 </div>
             {% endfor %}
         </div>
