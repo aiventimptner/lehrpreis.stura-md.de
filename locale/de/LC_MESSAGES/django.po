@@ -1,14 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) 2021 Aiven Timptner
+# This file is distributed under the same license as the lehrpreis.stura-md.de source files.
+#
+# Translators:
+# Aiven Timptner, 2021
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-08 21:16+0200\n"
+"POT-Creation-Date: 2021-06-16 16:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +19,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:39
+#: award/forms.py:39
 msgid "Your nomination for the teaching award of the student body"
 msgstr "Dein Vorschlag für den Lehrpreis der Studierendenschaft"
 
-#: forms.py:48
+#: award/forms.py:51
 msgid "First name"
 msgstr "Vorname"
 
-#: forms.py:49
+#: award/forms.py:55
 msgid "Last name"
 msgstr "Nachname"
 
-#: forms.py:50 templates/award/lecturer_card.html:8
+#: award/forms.py:56 award/templates/award/lecturer_card.html:8
 msgid "Faculty"
 msgstr "Fakultät"
 
-#: forms.py:51
+#: award/forms.py:57
 msgid "Reason"
 msgstr "Begründung"
 
-#: forms.py:52 forms.py:112
+#: award/forms.py:58 award/forms.py:118
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: forms.py:60
+#: award/forms.py:66
 msgid ""
 "Only email addresses of the following domains are allowed: st.ovgu.de, ovgu."
 "de"
@@ -50,7 +51,7 @@ msgstr ""
 "Es sind nur E-Mail-Adressen der folgenden Domains erlaubt: st.ovgu.de, ovgu."
 "de"
 
-#: forms.py:76
+#: award/forms.py:82
 #, python-format
 msgid ""
 "Students before you have indicated this lecturer as part of the F"
@@ -66,7 +67,7 @@ msgstr ""
 "eine Person mit diesem Namen geben sollte, melde dich bitte ebenfalls per E-"
 "Mail bei uns."
 
-#: forms.py:90
+#: award/forms.py:96
 msgid ""
 "A nomination for this teacher in combination with the given email address "
 "were already received."
@@ -74,7 +75,7 @@ msgstr ""
 "Eine Unterschrift für diese Lehrperson in Kombination mit der angegeben E-"
 "Mail-Adresse liegt bereits vor."
 
-#: forms.py:133
+#: award/forms.py:139
 msgid ""
 "No nomination with the specified email address could be found or all "
 "nominations with this email address are already confirmed."
@@ -82,157 +83,100 @@ msgstr ""
 "Es konnte kein Vorschlag mit der angegebenen E-Mail-Adresse gefunden werden "
 "oder es sind bereits alle Vorschläge mit dieser E-Mail-Adresse bestätigt."
 
-#: models.py:29
+#: award/models.py:29
 msgid "Mechanical Engineering"
 msgstr "Maschinenbau"
 
-#: models.py:30
+#: award/models.py:30
 msgid "Electrical Engineering & Information Technology"
 msgstr "Elektro- & Informationstechnik"
 
-#: models.py:31
+#: award/models.py:31
 msgid "Process & Systems Engineering"
 msgstr "Verfahrens- & Systemtechnik"
 
-#: models.py:32
+#: award/models.py:32
 msgid "Computer Science"
 msgstr "Informatik"
 
-#: models.py:33
+#: award/models.py:33
 msgid "Economics and Management"
 msgstr "Wirtschaftswissenschaften"
 
-#: models.py:34
+#: award/models.py:34
 msgid "Humanities, Social Science & Education"
 msgstr "Humanwissenschaften"
 
-#: models.py:35
+#: award/models.py:35
 msgid "Natural Science"
 msgstr "Naturwissenschaften"
 
-#: models.py:36
+#: award/models.py:36
 msgid "Medicine"
 msgstr "Medizin"
 
-#: models.py:37
+#: award/models.py:37
 msgid "Mathematics"
 msgstr "Mathematik"
 
-#: models.py:53
+#: award/models.py:53
 msgid "Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt."
 msgstr "Only email addresses ending with '@ovgu.de' are allowed."
 
-#: templates/400.html:6
-msgid "Bad Request"
-msgstr "Fehlerhafte Anfrage"
-
-#: templates/400.html:6
-msgid "Your request was malformed. Please try again."
-msgstr ""
-"Deine Anfrage konnte nicht verarbeitet werden. Versuche es einfach noch "
-"einmal."
-
-#: templates/403.html:6
-msgid "Forbidden"
-msgstr "Zugriff verweigert"
-
-#: templates/403.html:6
-msgid ""
-"Unfortunately, you do not have the necessary permissions to view this page."
-msgstr ""
-"Du hast leider nicht die nötigen Berechtigungen um diese Seite anzuzeigen"
-
-#: templates/404.html:6
-msgid "Not Found"
-msgstr "Seite wurde nicht gefunden"
-
-#: templates/404.html:6
-msgid "Just a blank page. There is no treasure chest hidden here."
-msgstr "Nur eine leere Seite. Hier ist keine Schatzkiste versteckt."
-
-#: templates/500.html:6
-msgid "Internal Server Error"
-msgstr "Server-Fehler"
-
-#: templates/500.html:6
-msgid "Unfortunately there was a problem on our side. Sorry for that!"
-msgstr "Leider ist bei uns einen Fehler aufgetreten. Sorry dafür!"
-
-#: templates/award/base.html:7
-msgid "Student council"
-msgstr "Studierendenrat"
-
-#: templates/award/footer.html:2
-msgid ""
-"\n"
-"<strong>Student Council</strong> of the <a href=\"https://www.ovgu.de\">Otto-"
-"von-Guericke-University Magdeburg.</a>\n"
-"All legal information can be found in our <a href=\"https://stura-md.de/"
-"impressum/\">imprint</a> or our\n"
-"<a href=\"https://stura-md.de/datenschutz/\">privacy policy</a>.\n"
-msgstr ""
-"\n"
-"<strong>Studierendenrat</strong> der <a href=\"https://www.ovgu.de\">Otto-"
-"von-Guericke-Universität Magdeburg.</a>\n"
-"Alle rechtlichen Angaben sind in unserem <a href=\"https://stura-md.de/"
-"impressum/\">Impressum</a> oder unserer\n"
-"<a href=\"https://stura-md.de/datenschutz/\">Datenschutzerklärung</a> zu "
-"finden.\n"
-
-#: templates/award/lecturer_card.html:14
+#: award/templates/award/lecturer_card.html:14
 msgid "Signatures"
 msgstr "Unterschriften"
 
-#: templates/award/lecturer_card.html:23
+#: award/templates/award/lecturer_card.html:23
 msgid "Sign"
 msgstr "Unterzeichnen"
 
-#: templates/award/lecturer_list.html:6
+#: award/templates/award/lecturer_list.html:10
 msgid "Teaching Award of the Student Body"
 msgstr "Lehrpreis der Studierendenschaft"
 
-#: templates/award/lecturer_list.html:8
+#: award/templates/award/lecturer_list.html:12
 msgid "What is the Teaching Award?"
 msgstr "Was ist der Lehrpreis?"
 
-#: templates/award/lecturer_list.html:13
+#: award/templates/award/lecturer_list.html:17
 msgid "Nominations received"
 msgstr "Eingereichte Vorschläge"
 
-#: templates/award/lecturer_list.html:18
+#: award/templates/award/lecturer_list.html:22
 msgid "No nominations have been submitted yet."
 msgstr "Es wurden bisher noch keine Vorschläge eingereicht."
 
-#: templates/award/lecturer_list.html:34
-#: templates/award/submission_form.html:12
+#: award/templates/award/lecturer_list.html:38
+#: award/templates/award/submission_form.html:12
 msgid "Submit new nomination"
 msgstr "Neuen Vorschlag einreichen"
 
-#: templates/award/lecturer_list.html:45
+#: award/templates/award/lecturer_list.html:49
 msgid "Search"
 msgstr "Suche"
 
-#: templates/award/lecturer_list.html:63
+#: award/templates/award/lecturer_list.html:68
 msgid "Reset query"
 msgstr "Sucheintrag löschen"
 
-#: templates/award/lecturer_list.html:75
+#: award/templates/award/lecturer_list.html:80
 msgid "Statistics"
 msgstr "Statistik"
 
-#: templates/award/lecturer_list.html:79
+#: award/templates/award/lecturer_list.html:84
 msgid "Nominations"
 msgstr "Vorschläge"
 
-#: templates/award/lecturer_list.html:83
+#: award/templates/award/lecturer_list.html:88
 msgid "Lecturers"
 msgstr "Lehrpersonen"
 
-#: templates/award/lecturer_list.html:87
+#: award/templates/award/lecturer_list.html:92
 msgid "Students"
 msgstr "Studierende"
 
-#: templates/award/mails/verification.html:2
+#: award/templates/award/mails/verification.html:2
 #, python-format
 msgid ""
 "\n"
@@ -352,7 +296,7 @@ msgstr ""
 "        </table>\n"
 "    </footer>\n"
 
-#: templates/award/mails/verification.txt:2
+#: award/templates/award/mails/verification.txt:2
 #, python-format
 msgid ""
 "Hello %(name)s,\n"
@@ -417,11 +361,11 @@ msgstr ""
 "Twitter:    https://twitter.com/sturaOVGU\n"
 "Instagram:  https://www.instagram.com/stura_ovgu/"
 
-#: templates/award/misc/privacy-info.html:2
+#: award/templates/award/misc/privacy-info.html:2
 msgid "Privacy"
 msgstr "Datenschutz"
 
-#: templates/award/misc/privacy-info.html:7
+#: award/templates/award/misc/privacy-info.html:7
 msgid ""
 "\n"
 "                You can find our <a href=\"https://stura-md.de/datenschutz/"
@@ -432,36 +376,36 @@ msgstr ""
 "Unsere <a href=\"https://stura-md.de/datenschutz/\">Datenschutzerklärung</a> "
 "findest du auf unser Homepage."
 
-#: templates/award/renew-token.html:9
+#: award/templates/award/renew-token.html:9
 msgid "Renew expired tokens"
 msgstr "Abgelaufene Token erneuern"
 
-#: templates/award/renew-token.html:10
+#: award/templates/award/renew-token.html:10
 msgid "Request new confirmation emails to validate your pending nominations"
 msgstr ""
 "Neue E-Mails zur Bestätigung der noch offenen Vorschläge von dir anfordern"
 
-#: templates/award/renew-token.html:19
+#: award/templates/award/renew-token.html:19
 msgid "Request"
 msgstr "Anfordern"
 
-#: templates/award/submission_form.html:13
+#: award/templates/award/submission_form.html:13
 msgid "Details of the teacher"
 msgstr "Angaben zur Lehrperson"
 
-#: templates/award/submission_form.html:20
+#: award/templates/award/submission_form.html:20
 msgid "Details of the submitting person"
 msgstr "Angaben zur einreichenden Person"
 
-#: templates/award/submission_form.html:26
+#: award/templates/award/submission_form.html:26
 msgid "Submit"
 msgstr "Abschicken"
 
-#: templates/award/success.html:10
+#: award/templates/award/success.html:10
 msgid "Success!"
 msgstr "Erfolg!"
 
-#: templates/award/verification.html:16
+#: award/templates/award/verification.html:16
 #, python-format
 msgid ""
 "\n"
@@ -476,23 +420,7 @@ msgstr ""
 "dafür das entsprechende <a href=\"%(form_url)s?email=%(feedback.sub_email)s"
 "\">Formular</a>."
 
-#: templates/error.html:17
-msgid "Back to home page"
-msgstr "Zurück zur Startseite"
-
-#: templates/error.html:27
-msgid "Report problem by email"
-msgstr "Problem per E-Mail melden"
-
-#: templates/error.html:38
-msgid "Imprint"
-msgstr "Impressum"
-
-#: templates/error.html:39
-msgid "Privacy policy"
-msgstr "Datenschutzerklärung"
-
-#: views.py:41
+#: award/views.py:46
 #, python-format
 msgid ""
 "The **Teaching Award of the Student Body** honors lecturers with outstanding "
@@ -529,11 +457,11 @@ msgstr ""
 "wollen wir auch Modulen mit einer geringen Teilnehmerzahl gleichermaßen eine "
 "Chance geben, deren Lehrperson zu würdigen."
 
-#: views.py:56
+#: award/views.py:61
 msgid "June"
 msgstr "Juni"
 
-#: views.py:67
+#: award/views.py:72
 msgid ""
 "We need your email address to confirm your identity and prevent "
 "misrepresentation. The personal data will always be treated confidentially "
@@ -546,7 +474,7 @@ msgstr ""
 "eingereichten Vorschläge werden für **maximal 6 Monate** aufbewahrt und "
 "anschließend unwiderruflich gelöscht."
 
-#: views.py:89
+#: award/views.py:94
 #, python-format
 msgid ""
 "We have successfully received your nomination. **The last step is to confirm "
@@ -560,11 +488,11 @@ msgstr ""
 "Vorschläge einreichen oder bereits existierende Vorschläge unterzeichnen "
 "möchtest kannst du einfach wieder zur [Startseite](%(url)s) zurückkehren."
 
-#: views.py:102
+#: award/views.py:107
 msgid "Token does not exist"
 msgstr "Token existiert nicht"
 
-#: views.py:103
+#: award/views.py:108
 msgid ""
 "The link you used is broken or outdated. Please use only the link you "
 "received from us by email."
@@ -572,25 +500,25 @@ msgstr ""
 "Der verwendete Link ist beschädigt oder veraltet. Bitte verwende nur den "
 "Link, welchen du per E-Mail von uns bekommen hast."
 
-#: views.py:112
+#: award/views.py:117
 msgid "Token is expired"
 msgstr "Token ist abgelaufen"
 
-#: views.py:113
+#: award/views.py:118
 #, python-format
 msgid "The link used was only valid until %(expiry)s."
 msgstr "Der verwendete Link war nur bis zum %(expiry)s gültig."
 
-#: views.py:129
+#: award/views.py:134
 msgid "Token is valid"
 msgstr "Token ist gültig"
 
-#: views.py:130
+#: award/views.py:135
 #, python-format
 msgid "Your nomination for %(lecturer)s has been successfully confirmed."
 msgstr "Dein Vorschlag für %(lecturer)s wurde erfolgreich bestätigt."
 
-#: views.py:145
+#: award/views.py:150
 msgid ""
 "The entered email address is **not stored** by us. We will only use it for "
 "sending the required emails."
@@ -598,7 +526,7 @@ msgstr ""
 "Die eingegebene E-Mail-Adresse wird von uns **nicht gespeichert**. Wir "
 "verwenden sie lediglich für das Versenden der benötigten E-Mails."
 
-#: views.py:164
+#: award/views.py:169
 msgid ""
 "We have just sent you a new email with a valid confirmation link for all "
 "open nominations. **Any old emails with a confirmation link that you still "
@@ -608,3 +536,86 @@ msgstr ""
 "gültigem Bestätigungslink geschickt. **Sämtliche alten E-Mails mit einem "
 "Bestätigungslink, welche du noch in deinem Postfach hast, sind nun nicht "
 "länger gültig.**"
+
+#: stura/settings/common.py:101
+msgid "German"
+msgstr "Deutsch"
+
+#: stura/settings/common.py:102
+msgid "English"
+msgstr "Englisch"
+
+#: stura/templates/400.html:9
+msgid "Bad Request"
+msgstr "Fehlerhafte Anfrage"
+
+#: stura/templates/400.html:12
+msgid "Your request was malformed. Please try again."
+msgstr ""
+"Deine Anfrage konnte nicht verarbeitet werden. Versuche es einfach noch "
+"einmal."
+
+#: stura/templates/403.html:9
+msgid "Forbidden"
+msgstr "Zugriff verweigert"
+
+#: stura/templates/403.html:12
+msgid ""
+"Unfortunately, you do not have the necessary permissions to view this page."
+msgstr ""
+"Du hast leider nicht die nötigen Berechtigungen um diese Seite anzuzeigen."
+
+#: stura/templates/404.html:9
+msgid "Not Found"
+msgstr "Seite wurde nicht gefunden"
+
+#: stura/templates/404.html:12
+msgid "Just a blank page. There is no treasure chest hidden here."
+msgstr "Nur eine leere Seite. Leider ist hier keine Schatzkiste versteckt."
+
+#: stura/templates/500.html:9
+msgid "Internal Server Error"
+msgstr "Server-Fehler"
+
+#: stura/templates/500.html:12
+msgid "Unfortunately there was a problem on our side. Sorry for that!"
+msgstr "Leider ist bei uns einen Fehler aufgetreten. Sorry dafür!"
+
+#: stura/templates/base.html:7
+msgid "Student council"
+msgstr "Studierendenrat"
+
+#: stura/templates/base.html:29
+msgid ""
+"\n"
+"                    <strong>Student Council</strong> of the\n"
+"                    <a href=\"https://www.ovgu.de\">Otto-von-Guericke-"
+"University Magdeburg.</a> All legal information can\n"
+"                    be found in our <a href=\"https://stura-md.de/impressum/"
+"\">imprint</a> or our\n"
+"                    <a href=\"https://stura-md.de/datenschutz/\">privacy "
+"policy</a>.\n"
+"                "
+msgstr ""
+"\n"
+"<strong>Studierendenrat</strong> der <a href=\"https://www.ovgu.de\">Otto-"
+"von-Guericke-Universität Magdeburg.</a> Alle rechtlichen Angaben sind in "
+"unserem <a href=\"https://stura-md.de/impressum/\">Impressum</a> oder "
+"unserer <a href=\"https://stura-md.de/datenschutz/\">Datenschutzerklärung</"
+"a> zu finden."
+
+#: stura/templates/base_error.html:15
+msgid "Back to home page"
+msgstr "Zurück zur Startseite"
+
+#: stura/templates/base_error.html:25
+msgid "Report problem by email"
+msgstr "Problem per E-Mail melden"
+
+#: stura/templates/base_error.html:36
+msgid "Imprint"
+msgstr "Impressum"
+
+#: stura/templates/base_error.html:37
+msgid "Privacy policy"
+msgstr "Datenschutzerklärung"

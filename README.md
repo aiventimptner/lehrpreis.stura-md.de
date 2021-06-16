@@ -53,6 +53,20 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Translation
+
+To find all translations strings and update the `.po` file run the following command from project root.
+
+```shell
+django-admin makemessages -l de --ignore=django
+```
+
+To generate the corresponding binary `.mo` file run:
+
+```shell
+django-admin compilemessages --ignore=django
+```
+
 ## License
 
 [MIT](https://github.com/aiventimptner/stura/blob/main/LICENSE)
