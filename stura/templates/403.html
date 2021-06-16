@@ -1,0 +1,14 @@
+{% extends 'base_error.html' %}
+
+{% load i18n %}
+
+{% block title %}Forbidden{% endblock %}
+
+{% block content %}
+    <p class="title">
+        {% translate "Forbidden" %}
+    </p>
+    <p class="subtitle">
+        {% translate "Unfortunately, you do not have the necessary permissions to view this page." %}
+    </p>
+{% endblock %}

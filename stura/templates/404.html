@@ -1,0 +1,14 @@
+{% extends 'base_error.html' %}
+
+{% load i18n %}
+
+{% block title %}Not Found{% endblock %}
+
+{% block content %}
+    <p class="title">
+        {% translate "Not Found" %}
+    </p>
+    <p class="subtitle">
+        {% translate "Just a blank page. There is no treasure chest hidden here." %}
+    </p>
+{% endblock %}

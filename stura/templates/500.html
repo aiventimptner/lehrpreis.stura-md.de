@@ -1,0 +1,14 @@
+{% extends 'base_error.html' %}
+
+{% load i18n %}
+
+{% block title %}Internal Server Error{% endblock %}
+
+{% block content %}
+    <p class="title">
+        {% translate "Internal Server Error" %}
+    </p>
+    <p class="subtitle">
+        {% translate "Unfortunately there was a problem on our side. Sorry for that!" %}
+    </p>
+{% endblock %}
