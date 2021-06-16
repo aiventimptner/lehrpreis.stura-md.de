@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./static:/static
+      - ./media:/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=farafmb.settings.production
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_HOST=postgres
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13.3-alpine
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+      - POSTGRES_DB=${SQL_NAME}
+  volumes:
+    pgdata:
+    static:
+    media:
