@@ -1,6 +1,4 @@
-import os
-
-from .base import *
+from .common import *  # noqa
 
 DEBUG = True
 
@@ -12,17 +10,13 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
 
-# E-Mail
+# Security
 
-EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+SESSION_COOKIE_SECURE = False
 
-EMAIL_PORT = os.getenv('EMAIL_PORT', 1025)
-
-EMAIL_HOST_USER = os.getenv('EMAIL_USER')
-
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+CSRF_COOKIE_SECURE = False

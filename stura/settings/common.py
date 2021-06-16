@@ -53,8 +53,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'stura.wsgi.application'
 
 
+# Database
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME', 'stura'),
+        'USER': os.getenv('DB_USER', 'stura'),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''),
+        'PORT': os.getenv('DB_PORT', ''),
+    }
+}
+
+
 # Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -73,7 +86,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'de'
 
@@ -92,11 +104,29 @@ LANGUAGES = [
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR / 'static'
+
+
+# E-Mail
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+
+EMAIL_PORT = os.getenv('EMAIL_PORT', '25')
+
+EMAIL_HOST_USER = os.getenv('EMAIL_USER', '')
+
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', '')
+
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_EMAIL', 'noreply@stura-md.de')
+
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'noreply@stura-md.de')
+
+
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
