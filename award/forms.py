@@ -1,9 +1,8 @@
 from datetime import timedelta
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
 from django.http import HttpRequest
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -22,26 +21,49 @@ def send_verification_email(nomination: Nomination, request: HttpRequest):
     expiration = timezone.now() + timedelta(hours=24)
     verification = Verification.objects.create(nomination=nomination, expiration=expiration)
 
-    link = {
-        'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
+    message = _("""Hello %(name)s,
+
+thank you for your nomination. As a last step, please confirm via this email that 
+the nomination has been submitted by you. All you have to do is click on the link 
+below. The link is valid until %(expiry)s!
+
+Confirm nomination: %(url)s
+
+For matching purposes, you can find your submitted details again below.
+
+Lecturer: %(lecturer)s
+Faculty: %(faculty)s
+Reason:
+%(reason)s
+
+Best regards,
+your student council
+
+--
+Student Council of the Otto-von-Guericke-University Magdeburg
+Building 26, Room 002
+Universitätsplatz 2
+39106 Magdeburg
+
+Phone: 0391/67-58971
+Email: stura@ovgu.de
+Twitter: https://twitter.com/sturaOVGU
+Instagram: https://www.instagram.com/stura_ovgu/
+""" % {
+        'name': nomination.get_username(),
         'expiry': timezone.make_naive(expiration),
-    }
+        'url': request.build_absolute_uri(reverse('verify-token', kwargs={'token': verification.token})),
+        'lecturer': nomination.lecturer.get_full_name(),
+        'faculty': nomination.lecturer.get_faculty_display(),
+        'reason': nomination.reason,
+    })
 
-    data = {
-        'nomination': nomination,
-        'lecturer': nomination.lecturer,
-        'link': link,
-    }
-
-    msg_html = render_to_string('award/mails/verification.html', data)
-    msg_plain = render_to_string('award/mails/verification.txt', data)
-
-    email = EmailMultiAlternatives(subject=_("Your nomination for the teaching award of the student body"),
-                                   body=msg_plain,
-                                   to=[nomination.get_valid_email()],
-                                   reply_to=['verwaltung@stura-md.de'])
-    email.attach_alternative(msg_html, 'text/html')
-    email.send()
+    send_mail(
+        subject=_("Your nomination for the teaching award of the student body"),
+        message=message,  # TODO Does not get translated?!?!?
+        from_email=None,
+        recipient_list=[nomination.get_valid_email()],
+    )
 
 
 class SubmissionForm(forms.Form):
