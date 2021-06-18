@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+    <nav class="panel">
+        <p class="panel-heading">
+            {% translate "Lecturers" %}
+        </p>
+        <p class="panel-tabs">
+            <a href="{% url 'lecturer-select' %}"{% if faculty_selected is None %} class="is-active"{% endif %}>All</a>
+            {% for faculty in faculties %}
+                <a href="{% url 'lecturer-select' %}?faculty={{ faculty.0 }}"{% if faculty_selected == faculty.0 %}
+                   class="is-active"{% endif %}>F{{ faculty.0 }}</a>
+            {% endfor %}
+        </p>
+        {% for lecturer in object_list %}
+            <a href="{% url 'lecturer-detail' lecturer.pk %}" class="panel-block">
+                <span class="panel-icon{% if lecturer.is_favorite %} has-text-warning{% endif %}">
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                </span>
+                {{ lecturer.get_full_name }}
+            </a>
+        {% empty %}
+            <p class="panel-block has-text-grey">{% translate "No lecturers available" %}</p>
+        {% endfor %}
+    </nav>
+{% endblock %}

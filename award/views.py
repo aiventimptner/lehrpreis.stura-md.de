@@ -1,4 +1,6 @@
 from django.core.exceptions import FieldError
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
@@ -169,4 +171,44 @@ class RenewTokenSuccessView(generic.TemplateView):
         context['feedback'] = markdown(_("We have just sent you a new email with a valid confirmation link for all "
                                          "open nominations. **Any old emails with a confirmation link that you "
                                          "still have in your inbox are no longer valid.**"))
+        return context
+
+
+@login_required
+def toggle_favorite_lecturer(request, pk):
+    lecturer = Lecturer.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        value = request.POST.get('is-favorite', 'no')
+        if value == 'no':
+            lecturer.is_favorite = True
+        else:
+            lecturer.is_favorite = False
+        lecturer.save()
+
+    context = {
+        'lecturer': lecturer,
+        'nominations': lecturer.nomination_set.count(),
+        'nominations_verified': lecturer.nomination_set.filter(is_verified=True).count(),
+    }
+
+    return render(request, 'award/lecturer_detail.html', context)
+
+
+class LecturerSelectView(LoginRequiredMixin, generic.ListView):
+    model = Lecturer
+    ordering = ('first_name', 'last_name')
+    template_name = 'award/lecturer_select.html'
+
+    def get_queryset(self):
+        query = Lecturer.objects.distinct()
+        faculty = self.request.GET.get('faculty')
+        if faculty:
+            query = query.filter(faculty=faculty)
+        return query
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['faculties'] = Lecturer.FACULTIES
+        context['faculty_selected'] = self.request.GET.get('faculty')
         return context

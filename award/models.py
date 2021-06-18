@@ -40,6 +40,7 @@ class Lecturer(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     faculty = models.CharField(max_length=3, choices=FACULTIES)
+    is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return self.get_full_name()

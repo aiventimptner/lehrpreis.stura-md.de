@@ -6,7 +6,7 @@ from award.models import Lecturer, Nomination, Verification
 @admin.register(Lecturer)
 class LecturerAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'faculty', 'count_nominations', 'count_nominations_verified')
-    list_filter = ('faculty',)
+    list_filter = ('faculty', 'is_favorite')
     ordering = ('first_name', 'last_name')
     search_fields = ['first_name', 'last_name']
 
