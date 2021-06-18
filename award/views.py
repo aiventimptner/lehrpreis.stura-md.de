@@ -176,6 +176,12 @@ class RenewTokenSuccessView(generic.TemplateView):
 class LecturerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Lecturer
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nominations'] = self.object.nomination_set.count()
+        context['nominations_verified'] = self.object.nomination_set.filter(is_verified=True).count()
+        return context
+
 
 class LecturerSelectView(LoginRequiredMixin, generic.ListView):
     model = Lecturer

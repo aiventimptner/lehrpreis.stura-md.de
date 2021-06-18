@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 19:54+0200\n"
+"POT-Creation-Date: 2021-06-18 20:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,6 +188,23 @@ msgstr "Mathematik"
 msgid "Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt."
 msgstr "Only email addresses ending with '@ovgu.de' are allowed."
 
+#: award/templates/award/lecturer_detail.html:18
+msgid "Favorite"
+msgstr "Favorit"
+
+#: award/templates/award/lecturer_detail.html:28
+#: award/templates/award/lecturer_list.html:84
+msgid "Nominations"
+msgstr "Vorschläge"
+
+#: award/templates/award/lecturer_detail.html:34
+msgid "Nominations verified"
+msgstr "Verifizierte Vorschläge"
+
+#: award/templates/award/lecturer_detail.html:43
+msgid "Not verified"
+msgstr "Noch nicht verifiziert"
+
 #: award/templates/award/lecturer_list.html:10
 msgid "Teaching Award of the Student Body"
 msgstr "Lehrpreis der Studierendenschaft"
@@ -221,10 +238,6 @@ msgstr "Sucheintrag löschen"
 msgid "Statistics"
 msgstr "Statistik"
 
-#: award/templates/award/lecturer_list.html:84
-msgid "Nominations"
-msgstr "Vorschläge"
-
 #: award/templates/award/lecturer_list.html:88
 #: award/templates/award/lecturer_select.html:8
 msgid "Lecturers"
@@ -234,7 +247,7 @@ msgstr "Lehrpersonen"
 msgid "Students"
 msgstr "Studierende"
 
-#: award/templates/award/lecturer_select.html:22
+#: award/templates/award/lecturer_select.html:25
 msgid "No lecturers available"
 msgstr "Keine Lehrpersonen verfügbar"
 
