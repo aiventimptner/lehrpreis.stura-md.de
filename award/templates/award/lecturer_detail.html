@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="title">{{ lecturer }}</h1>
+    <h3 class="subtitle">{{ lecturer.get_faculty_display }}</h3>
+    {% for nomination in lecturer.nomination_set.all %}
+        <article class="message">
+            <div class="message-body">
+                <p>{{ nomination.reason }}</p>
+                <p class="has-text-right has-text-grey">{{ nomination.sub_date }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock %}

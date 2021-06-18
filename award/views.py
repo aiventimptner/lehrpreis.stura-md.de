@@ -1,4 +1,5 @@
 from django.core.exceptions import FieldError
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
@@ -170,3 +171,7 @@ class RenewTokenSuccessView(generic.TemplateView):
                                          "open nominations. **Any old emails with a confirmation link that you "
                                          "still have in your inbox are no longer valid.**"))
         return context
+
+
+class LecturerDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Lecturer
