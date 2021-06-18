@@ -8,17 +8,17 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DJANGO_SETTINGS_MODULE=stura.settings.production
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
       - SECRET_KEY=${SECRET_KEY}
       - DB_HOST=postgres
+      - DB_PORT=5432
       - DB_NAME=${DB_NAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - EMAIL_HOST=${EMAIL_HOST}
-      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
     depends_on:
       - postgres
   postgres:
