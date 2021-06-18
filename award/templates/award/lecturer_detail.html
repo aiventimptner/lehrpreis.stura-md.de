@@ -3,6 +3,17 @@
 {% load i18n %}
 
 {% block content %}
+    <div class="is-pulled-right">
+        <form method="post">{% csrf_token %}
+            <input type="hidden" name="is-favorite" value="{{ lecturer.is_favorite|yesno }}">
+            {% if lecturer.is_favorite %}
+                <button class="button is-light" type="submit">{% translate "Remove as favorite" %}</button>
+            {% else %}
+                <button class="button is-primary" type="submit">{% translate "Mark as favorite" %}</button>
+            {% endif %}
+        </form>
+    </div>
+
     <h1 class="title">{{ lecturer }}</h1>
     <h3 class="subtitle">{{ lecturer.get_faculty_display }}</h3>
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 20:41+0200\n"
+"POT-Creation-Date: 2021-06-18 21:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,20 +188,28 @@ msgstr "Mathematik"
 msgid "Es sind nur E-Mail-Adresse mit der Endung '@ovgu.de' erlaubt."
 msgstr "Only email addresses ending with '@ovgu.de' are allowed."
 
-#: award/templates/award/lecturer_detail.html:18
+#: award/templates/award/lecturer_detail.html:10
+msgid "Remove as favorite"
+msgstr "Als Favorit entfernen"
+
+#: award/templates/award/lecturer_detail.html:12
+msgid "Mark as favorite"
+msgstr "Als Favorit markieren"
+
+#: award/templates/award/lecturer_detail.html:23
 msgid "Favorite"
 msgstr "Favorit"
 
-#: award/templates/award/lecturer_detail.html:28
+#: award/templates/award/lecturer_detail.html:33
 #: award/templates/award/lecturer_list.html:84
 msgid "Nominations"
 msgstr "Vorschläge"
 
-#: award/templates/award/lecturer_detail.html:34
+#: award/templates/award/lecturer_detail.html:39
 msgid "Nominations verified"
 msgstr "Verifizierte Vorschläge"
 
-#: award/templates/award/lecturer_detail.html:43
+#: award/templates/award/lecturer_detail.html:48
 msgid "Not verified"
 msgstr "Noch nicht verifiziert"
 
@@ -318,7 +326,7 @@ msgstr ""
 "dafür das entsprechende <a href=\"%(form_url)s?email=%(feedback.sub_email)s"
 "\">Formular</a>."
 
-#: award/views.py:47
+#: award/views.py:48
 #, python-format
 msgid ""
 "The **Teaching Award of the Student Body** honors lecturers with outstanding "
@@ -355,11 +363,11 @@ msgstr ""
 "wollen wir auch Modulen mit einer geringen Teilnehmerzahl gleichermaßen eine "
 "Chance geben, deren Lehrperson zu würdigen."
 
-#: award/views.py:62
+#: award/views.py:63
 msgid "June"
 msgstr "Juni"
 
-#: award/views.py:73
+#: award/views.py:74
 msgid ""
 "We need your email address to confirm your identity and prevent "
 "misrepresentation. The personal data will always be treated confidentially "
@@ -372,7 +380,7 @@ msgstr ""
 "eingereichten Vorschläge werden für **maximal 6 Monate** aufbewahrt und "
 "anschließend unwiderruflich gelöscht."
 
-#: award/views.py:95
+#: award/views.py:96
 #, python-format
 msgid ""
 "We have successfully received your nomination. **The last step is to confirm "
@@ -386,11 +394,11 @@ msgstr ""
 "Vorschläge einreichen oder bereits existierende Vorschläge unterzeichnen "
 "möchtest kannst du einfach wieder zur [Startseite](%(url)s) zurückkehren."
 
-#: award/views.py:108
+#: award/views.py:109
 msgid "Token does not exist"
 msgstr "Token existiert nicht"
 
-#: award/views.py:109
+#: award/views.py:110
 msgid ""
 "The link you used is broken or outdated. Please use only the link you "
 "received from us by email."
@@ -398,25 +406,25 @@ msgstr ""
 "Der verwendete Link ist beschädigt oder veraltet. Bitte verwende nur den "
 "Link, welchen du per E-Mail von uns bekommen hast."
 
-#: award/views.py:118
+#: award/views.py:119
 msgid "Token is expired"
 msgstr "Token ist abgelaufen"
 
-#: award/views.py:119
+#: award/views.py:120
 #, python-format
 msgid "The link used was only valid until %(expiry)s."
 msgstr "Der verwendete Link war nur bis zum %(expiry)s gültig."
 
-#: award/views.py:135
+#: award/views.py:136
 msgid "Token is valid"
 msgstr "Token ist gültig"
 
-#: award/views.py:136
+#: award/views.py:137
 #, python-format
 msgid "Your nomination for %(lecturer)s has been successfully confirmed."
 msgstr "Dein Vorschlag für %(lecturer)s wurde erfolgreich bestätigt."
 
-#: award/views.py:151
+#: award/views.py:152
 msgid ""
 "The entered email address is **not stored** by us. We will only use it for "
 "sending the required emails."
@@ -424,7 +432,7 @@ msgstr ""
 "Die eingegebene E-Mail-Adresse wird von uns **nicht gespeichert**. Wir "
 "verwenden sie lediglich für das Versenden der benötigten E-Mails."
 
-#: award/views.py:170
+#: award/views.py:171
 msgid ""
 "We have just sent you a new email with a valid confirmation link for all "
 "open nominations. **Any old emails with a confirmation link that you still "

@@ -1,4 +1,5 @@
 from django.core.exceptions import FieldError
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -173,14 +174,25 @@ class RenewTokenSuccessView(generic.TemplateView):
         return context
 
 
-class LecturerDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Lecturer
+@login_required
+def toggle_favorite_lecturer(request, pk):
+    lecturer = Lecturer.objects.get(pk=pk)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['nominations'] = self.object.nomination_set.count()
-        context['nominations_verified'] = self.object.nomination_set.filter(is_verified=True).count()
-        return context
+    if request.method == 'POST':
+        value = request.POST.get('is-favorite', 'no')
+        if value == 'no':
+            lecturer.is_favorite = True
+        else:
+            lecturer.is_favorite = False
+        lecturer.save()
+
+    context = {
+        'lecturer': lecturer,
+        'nominations': lecturer.nomination_set.count(),
+        'nominations_verified': lecturer.nomination_set.filter(is_verified=True).count(),
+    }
+
+    return render(request, 'award/lecturer_detail.html', context)
 
 
 class LecturerSelectView(LoginRequiredMixin, generic.ListView):
