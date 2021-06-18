@@ -37,29 +37,29 @@ class LecturerListView(generic.ListView):
         return query.order_by('faculty', 'first_name', 'last_name')
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data()
-        data['stats'] = {
+        context = super().get_context_data(**kwargs)
+        context['stats'] = {
             'votes': Nomination.objects.count(),
             'votes_verified': Nomination.objects.filter(is_verified=True).count(),
             'unique_users': Nomination.objects.values('sub_email').distinct().count(),
         }
-        data['desc'] = markdown(_("The **Teaching Award of the Student Body** honors lecturers with outstanding "
-                                  "teaching. In particular, the conversion of their own teaching to digital means "
-                                  "and the provision of additional teaching for students, due to the current "
-                                  "pandemic situation, should be recognized. Not only professors can be nominated, "
-                                  "but also any person who offers teaching at "
-                                  "[Otto-von-Guericke-University Magdeburg](https://www.ovgu.de), e.g. lecturers "
-                                  "or internship supervisors.\n"
-                                  "\n"
-                                  "The submitted nominations will be discussed at a meeting of the Student Council "
-                                  "after the **submission deadline (%(month)s %(day)s, %(year)s)**, where the "
-                                  "final winners will also be selected. In this process, the reasons submitted "
-                                  "during the nomination process shall be predominantly included in the selection "
-                                  "of the winners and the number of signed students shall only play a secondary "
-                                  "role. In this way, we also want to give modules with a low number of "
-                                  "participants an equal chance to have their "
-                                  "teacher recognized.") % {'year': "2021", 'month': _("June"), 'day': "20"})
-        return data
+        context['desc'] = markdown(_("The **Teaching Award of the Student Body** honors lecturers with outstanding "
+                                     "teaching. In particular, the conversion of their own teaching to digital means "
+                                     "and the provision of additional teaching for students, due to the current "
+                                     "pandemic situation, should be recognized. Not only professors can be nominated, "
+                                     "but also any person who offers teaching at "
+                                     "[Otto-von-Guericke-University Magdeburg](https://www.ovgu.de), e.g. lecturers "
+                                     "or internship supervisors.\n"
+                                     "\n"
+                                     "The submitted nominations will be discussed at a meeting of the Student Council "
+                                     "after the **submission deadline (%(month)s %(day)s, %(year)s)**, where the "
+                                     "final winners will also be selected. In this process, the reasons submitted "
+                                     "during the nomination process shall be predominantly included in the selection "
+                                     "of the winners and the number of signed students shall only play a secondary "
+                                     "role. In this way, we also want to give modules with a low number of "
+                                     "participants an equal chance to have their "
+                                     "teacher recognized.") % {'year': "2021", 'month': _("June"), 'day': "20"})
+        return context
 
 
 class SubmissionFormView(generic.FormView):
@@ -68,7 +68,7 @@ class SubmissionFormView(generic.FormView):
     success_url = 'success/'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context['privacy'] = markdown(_("We need your email address to confirm your identity and prevent "
                                         "misrepresentation. The personal data will always be treated confidentially "
                                         "and will not be passed on to third parties. All submitted proposals will be "
@@ -89,7 +89,7 @@ class SubmissionSuccessView(generic.TemplateView):
     template_name = 'award/success.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context['feedback'] = markdown(
             _("We have successfully received your nomination. **The last step is to confirm your "
               "nomination by clicking on the link we just sent you by email.** If you want to "
@@ -146,7 +146,7 @@ class RenewTokenView(generic.FormView):
     success_url = 'success/'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context['privacy'] = markdown(_("The entered email address is **not stored** by us. "
                                         "We will only use it for sending the required emails."))
         return context
@@ -165,7 +165,7 @@ class RenewTokenSuccessView(generic.TemplateView):
     template_name = 'award/success.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context['feedback'] = markdown(_("We have just sent you a new email with a valid confirmation link for all "
                                          "open nominations. **Any old emails with a confirmation link that you "
                                          "still have in your inbox are no longer valid.**"))
