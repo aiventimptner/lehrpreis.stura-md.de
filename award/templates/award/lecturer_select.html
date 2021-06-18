@@ -16,6 +16,9 @@
         </p>
         {% for lecturer in object_list %}
             <a href="{% url 'lecturer-detail' lecturer.pk %}" class="panel-block">
+                <span class="panel-icon{% if lecturer.is_favorite %} has-text-warning{% endif %}">
+                    <i class="fas fa-star" aria-hidden="true"></i>
+                </span>
                 {{ lecturer.get_full_name }}
             </a>
         {% empty %}

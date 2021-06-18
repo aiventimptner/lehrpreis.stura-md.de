@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block content %}
     <h1 class="title">{{ lecturer }}</h1>
     <h3 class="subtitle">{{ lecturer.get_faculty_display }}</h3>
+
+    <div class="tags has-addons">
+        <span class="tag">{% translate "Favorite" %}</span>
+        {% if lecturer.is_favorite %}
+            <span class="tag is-success"><i class="fas fa-check"></i></span>
+        {% else %}
+            <span class="tag is-danger"><i class="fas fa-times"></i></span>
+        {% endif %}
+    </div>
+
     {% for nomination in lecturer.nomination_set.all %}
         <article class="message">
             <div class="message-body">
