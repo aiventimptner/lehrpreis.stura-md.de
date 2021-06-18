@@ -4,14 +4,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import ListView, TemplateView, FormView
+from django.views import generic
 from markdown import markdown
 
 from .forms import SubmissionForm, RenewTokenForm
 from .models import Lecturer, Verification, Nomination
 
 
-class LecturerListView(ListView):
+class LecturerListView(generic.ListView):
     model = Lecturer
 
     def post(self, request, *args, **kwargs):
@@ -62,7 +62,7 @@ class LecturerListView(ListView):
         return data
 
 
-class SubmissionFormView(FormView):
+class SubmissionFormView(generic.FormView):
     form_class = SubmissionForm
     template_name = 'award/submission_form.html'
     success_url = 'success/'
@@ -85,7 +85,7 @@ class SubmissionFormView(FormView):
         return super().form_valid(form)
 
 
-class SubmissionSuccessView(TemplateView):
+class SubmissionSuccessView(generic.TemplateView):
     template_name = 'award/success.html'
 
     def get_context_data(self, **kwargs):
@@ -140,7 +140,7 @@ def verify_token(request, token):
     return render(request, 'award/verification.html', {'feedback': feedback})
 
 
-class RenewTokenView(FormView):
+class RenewTokenView(generic.FormView):
     form_class = RenewTokenForm
     template_name = 'award/renew_token.html'
     success_url = 'success/'
@@ -161,7 +161,7 @@ class RenewTokenView(FormView):
         return super().form_valid(form)
 
 
-class RenewTokenSuccessView(TemplateView):
+class RenewTokenSuccessView(generic.TemplateView):
     template_name = 'award/success.html'
 
     def get_context_data(self, **kwargs):
