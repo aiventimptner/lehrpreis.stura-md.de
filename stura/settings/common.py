@@ -138,3 +138,10 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'noreply@stura-md.de')
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Default user login
+
+LOGIN_URL = '/admin/login'
+
+LOGIN_REDIRECT_URL = '/admin'
