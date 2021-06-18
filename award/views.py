@@ -175,3 +175,22 @@ class RenewTokenSuccessView(generic.TemplateView):
 
 class LecturerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Lecturer
+
+
+class LecturerSelectView(LoginRequiredMixin, generic.ListView):
+    model = Lecturer
+    ordering = ('first_name', 'last_name')
+    template_name = 'award/lecturer_select.html'
+
+    def get_queryset(self):
+        query = Lecturer.objects.distinct()
+        faculty = self.request.GET.get('faculty')
+        if faculty:
+            query = query.filter(faculty=faculty)
+        return query
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['faculties'] = Lecturer.FACULTIES
+        context['faculty_selected'] = self.request.GET.get('faculty')
+        return context
