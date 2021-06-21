@@ -8,7 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install build dependencies
-RUN apt update && apt install -y gcc python3-dev libpq-dev
+RUN apt update && apt install -y gcc python3-dev libpq-dev gettext
 
 # install dependencies
 COPY ./requirements.txt ./requirements.txt
