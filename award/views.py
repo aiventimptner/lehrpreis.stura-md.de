@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
@@ -176,7 +176,7 @@ class RenewTokenSuccessView(generic.TemplateView):
 
 @login_required
 def toggle_favorite_lecturer(request, pk):
-    lecturer = Lecturer.objects.get(pk=pk)
+    lecturer = get_object_or_404(Lecturer, pk=pk)
 
     if request.method == 'POST':
         value = request.POST.get('is-favorite', 'no')
